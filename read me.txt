@@ -8,3 +8,5 @@ ShinyBlueMaterialVp.glsl
 
 By using the "E" and "Q" buttons u can toggle throught
 different textures 
+
+test
