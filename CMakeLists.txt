@@ -9,7 +9,7 @@ set(HDRS
 )
  
 set(SRCS
-	./ogre_application.cpp ./main.cpp ./ShinyBlueMaterialVp.glsl ./ShinyBlueMaterialFp.glsl ./ShinyTextureMaterialVp.glsl ./ShinyTextureMaterialFp.glsl ShinyTexture.material ShinyTexture_noT.material ShinyBlue.material ShinyBlue_noT.material ScreenSpace.material ScreenSpaceVp.glsl ScreenSpaceFp.glsl ScreenSpace.compositor
+	./ogre_application.cpp ./main.cpp ./DefaultVp.glsl ./DefaultFp.glsl  ./ToonOneMaterialFP.glsl  ./ToonTwoMaterialFP.glsl ShinyBlue.material ScreenSpace.material ScreenSpaceVp.glsl ScreenSpaceFp.glsl ScreenSpace.compositor
 )
 
 # The rules here are specific to Windows Systems

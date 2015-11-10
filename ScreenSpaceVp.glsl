@@ -15,4 +15,3 @@ void main()
 
 	uv = uv0; 
 }
-

@@ -13,10 +13,8 @@ int main(void){
 	try {
 		application.Init();
 		application.CreateTorusGeometry("TorusMesh");
-		application.CreateCylinder("Cylinder", "ShinyBlueMaterial");
-		application.CreateTorus("Torus", "ShinyBlueMaterial", Ogre::ColourValue(0.0,0.0,1.0), 100.5, 100.5, 100);
-		application.CreateEntity("TorusEnt1" ,"TorusMesh", "ShinyTextureMaterial");
-		//application.SetupAnimation("TorusEnt1");
+		application.CreateEntity("TorusEnt1" ,"TorusMesh", "Default_Blue_Light");
+		application.SetupAnimation("TorusEnt1");
 		application.MainLoop();
 	}
 	catch (std::exception &e){

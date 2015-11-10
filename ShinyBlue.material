@@ -1,6 +1,6 @@
 vertex_program shiny_blue_shader/vs glsl 
 {
-    source ShinyBlueMaterialVp.glsl 
+    source DefaultVp.glsl 
 
     default_params
     {
@@ -17,7 +17,7 @@ vertex_program shiny_blue_shader/vs glsl
 
 fragment_program shiny_blue_shader/fs glsl 
 {
-    source ShinyBlueMaterialFp.glsl 
+    source DefaultFp.glsl 
 
 	default_params
 	{
@@ -25,16 +25,14 @@ fragment_program shiny_blue_shader/fs glsl
 		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
 		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
 		 param_named specular_colour float4 0.8 0.5 0.9 1.0
-		 param_named ambient_amount float 0.1
 		 param_named phong_exponent float 128.0
 		 param_named diffuse_map int 0
 	}
 }
 
-
-material ShinyBlueMaterial
+material Default_Blue_Light
 {
-    technique
+	technique
     {
         pass
         {
@@ -47,7 +45,90 @@ material ShinyBlueMaterial
             }
 
 			texture_unit {
-				texture earth.jpg 2d
+				texture T1.png 2d
+			}
+        } 
+    }
+
+}
+
+/*************************TOON_ONE********************/
+//shaded with 2 thresholds of colors 2 light sources and thinner outline
+
+
+
+fragment_program shiny_toon_shader/fs glsl 
+{
+    source ToonOneMaterialFp.glsl 
+
+	default_params
+	{
+		 param_named outline_colour float4 0.0 0.0 0.0 1.0
+		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
+		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
+		 param_named specular_colour float4 0.8 0.5 0.9 1.0
+		 param_named phong_exponent float 128.0
+		 param_named diffuse_map int 0
+	}
+}
+
+material Toon_One_Blue_Lighted
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader/fs
+            {
+            }
+
+			texture_unit {
+				texture T2.png 2d
+			}
+        } 
+    }
+}
+
+/*************************TOON_TWO********************/
+//shaded with 3 thresholds of colors 2 light sources and thicker outline
+
+
+
+fragment_program shiny_toon_shader_two/fs glsl 
+{
+    source ToonTwoMaterialFp.glsl 
+
+	default_params
+	{
+		 param_named outline_colour float4 0.0 0.0 0.0 1.0
+		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
+		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
+		 param_named specular_colour float4 0.8 0.5 0.9 1.0
+		 param_named phong_exponent float 128.0
+		 param_named diffuse_map int 0
+	}
+}
+
+material Toon_Two_Blue_Lighted
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture T3.png 2d
 			}
         } 
     }

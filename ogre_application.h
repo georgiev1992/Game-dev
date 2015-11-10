@@ -58,10 +58,6 @@ namespace ogre_application {
             void Init(void); // Call Init() before running the main loop
 			// Create geometry of a torus and add it to the available resources
 			void CreateTorusGeometry(Ogre::String object_name, float loop_radius = 0.6, float circle_radius = 0.2, int num_loop_samples = 90, int num_circle_samples = 30); 
-			
-			void CreateCylinder(Ogre::String object_name, Ogre::String material_name);
-			void CreateTorus(Ogre::String object_name, Ogre::String material_name, Ogre::ColourValue color, float x, float y, float z, float loop_radius = 0.6, float circle_radius = 0.2, int num_loop_samples = 90, int num_circle_samples = 30); // Create an object to show on the screen
-			
 			// Create an entity of an object that we can show on the screen
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
@@ -77,16 +73,6 @@ namespace ogre_application {
 			Ogre::AnimationState *animation_state_; // Keep state of the animation
 			bool animating_; // Whether animation is on or off
 			bool space_down_; // Whether space key was pressed
-
-						#define NUM_ELEMENTS 18 // Number of elements in the chain
-			#define NUM_ELEMENTS2 8
-			Ogre::SceneNode* cube_[NUM_ELEMENTS*2]; // *2 = one for element and one for the propeller
-			Ogre::SceneNode* cylinder_[NUM_ELEMENTS2];
-
-			Ogre::Entity *entity_t;
-			Ogre::Entity *entity_t2;
-			Ogre::SceneNode* torus2;
-			Ogre::SceneNode *torus;
 
 			// Input managers
 			OIS::InputManager *input_manager_;
