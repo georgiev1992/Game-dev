@@ -791,7 +791,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	/* Movement factors to apply to the ship */
 	double trans_factor = 0.1; // Small continuous translation
 	double small_trans_factor = 1.0; // Translation applied with thrusters
-	Ogre::Radian rot_factor(Ogre::Math::PI / 180); // Camera rotation with directional thrusters
+	Ogre::Radian rot_factor(Ogre::Math::PI / 90); // Camera rotation with directional thrusters
 	
 	/* Always keep the camera moving slightly */
 	//camera->setPosition(camera->getPosition() + ship_float*small_trans_factor);
