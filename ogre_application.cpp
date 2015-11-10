@@ -608,6 +608,44 @@ void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object
     }
 }
 
+void OgreApplication::CreateModel_1(Ogre::String object_name, Ogre::String material_name){
+
+	try {
+		/* Create one instance of the torus (one entity) */
+		/* The same object can have multiple instances or entities */
+
+		/* Retrieve scene manager and root scene node */
+        Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		/* Create entity */
+        Ogre::Entity* entity = scene_manager->createEntity(object_name);
+
+		/* Apply a material to the entity to give it color */
+		/* We already did that above, so we comment it out here */
+		entity->setMaterialName(material_name);
+		/* But, this call is useful if we have multiple entities with different materials */
+
+		/* Create a scene node for the entity */
+		/* The scene node keeps track of the entity's position */
+        Ogre::SceneNode* scene_node = root_scene_node->createChildSceneNode("Base");
+        scene_node->attachObject(entity);
+
+        /* Position and rotate the entity with the scene node */
+		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
+		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
+        //scene_node->translate(0.0, 0.0, 0.0);
+		scene_node->scale(0.5, 0.5, 0.5);
+
+	}
+    catch (Ogre::Exception &e){
+        throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
+    }
+    catch(std::exception &e){
+        throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
+    }
+}
+
 
 void OgreApplication::MainLoop(void){
 

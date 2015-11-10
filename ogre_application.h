@@ -62,8 +62,9 @@ namespace ogre_application {
 			// Create geometry of a torus and add it to the available resources
 			void CreateTorusGeometry(Ogre::String object_name, float loop_radius = 0.6, float circle_radius = 0.2, int num_loop_samples = 90, int num_circle_samples = 30); 
 			// Create an entity of an object that we can show on the screen
-			 void CreateCube(void);
+			void CreateCube(void);
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
+			void CreateModel_1(Ogre::String object_name, Ogre::String material_name);
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
 
