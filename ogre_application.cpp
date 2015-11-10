@@ -35,6 +35,9 @@ const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
 
+/* Spaceship variables */
+Ogre::Vector3 ship_float(0.0, 0.0, 0.0);
+
 
 OgreApplication::OgreApplication(void){
 
@@ -497,6 +500,11 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
 	Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 	Ogre::SceneNode *Torus = scene_manager->getSceneNode("TorusEnt1");
+	/* For the camera */
+	Ogre::Camera* camera = scene_manager->getCamera("MyCamera");
+	if (!camera){
+		return false;
+	}
 
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
@@ -511,6 +519,12 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	mouse_->capture();
 
 	/* Handle specific key events */
+	if (keyboard_->isKeyDown(OIS::KC_ESCAPE)){
+        ogre_root_->shutdown();
+        ogre_window_->destroy();
+        return false;
+    }
+
 	if (keyboard_->isKeyDown(OIS::KC_SPACE)){
 		space_down_ = true;
 	}
@@ -518,13 +532,13 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		animating_ = !animating_;
 		space_down_ = false;
 	}
-	if (keyboard_->isKeyDown(OIS::KC_ESCAPE)){
+	if (keyboard_->isKeyDown(OIS::KC_V)){
 		animation_state_->setTimePosition(0);
 	}
-	if (!keyboard_->isKeyDown(OIS::KC_A) && keydown == true){
+	if (!keyboard_->isKeyDown(OIS::KC_C) && keydown == true){
 		keydown = false;
 	}
-	if (keyboard_->isKeyDown(OIS::KC_A) && keydown == false){
+	if (keyboard_->isKeyDown(OIS::KC_C) && keydown == false){
 		keydown = true;
 		if(toon == 0){
 			Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
@@ -543,6 +557,79 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
  
 	// Update time for compositor
 	elapsed_time_ += fe.timeSinceLastFrame;
+
+	/* Move ship according to keyboard input and last move */
+	/* Movement factors to apply to the ship */
+	double trans_factor = 0.1; // Small continuous translation
+	double small_trans_factor = 1.0; // Translation applied with thrusters
+	Ogre::Radian rot_factor(Ogre::Math::PI / 180); // Camera rotation with directional thrusters
+	
+	/* Always keep the camera moving slightly */
+	//camera->setPosition(camera->getPosition() + ship_float*small_trans_factor);
+
+	/* Apply user commands */
+	/* Camera rotation */
+	if (keyboard_->isKeyDown(OIS::KC_UP)){
+		camera->pitch(rot_factor);
+	}
+	
+	if (keyboard_->isKeyDown(OIS::KC_DOWN)){
+		camera->pitch(-rot_factor);
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_LEFT)){
+		camera->yaw(rot_factor);
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_RIGHT)){
+		camera->yaw(-rot_factor);
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_Q)){
+		camera->roll(-rot_factor);
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_E)){
+		camera->roll(rot_factor);
+	}
+
+	/* Camera translation */
+	if (keyboard_->isKeyDown(OIS::KC_W)){
+		camera->setPosition(camera->getPosition() + camera->getDirection()*trans_factor);
+		last_dir_ = Direction::Forward;
+		ship_float = camera->getDirection();
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_S)){
+		camera->setPosition(camera->getPosition() - camera->getDirection()*trans_factor);
+		last_dir_ = Direction::Backward;
+		ship_float = -camera->getDirection();
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_A)){
+        camera->setPosition(camera->getPosition() - camera->getRight()*trans_factor);
+		last_dir_ = Direction::Left;
+		ship_float = -camera->getRight();
+	}
+	
+	if (keyboard_->isKeyDown(OIS::KC_D)){
+		camera->setPosition(camera->getPosition() + camera->getRight()*trans_factor);
+		last_dir_ = Direction::Right;
+		ship_float = camera->getRight();
+	}
+
+	if (keyboard_->isKeyDown(OIS::KC_R)){
+        camera->setPosition(camera->getPosition() + camera->getUp()*trans_factor);
+		last_dir_ = Direction::Up;
+		ship_float = camera->getUp();
+	}
+	
+	if (keyboard_->isKeyDown(OIS::KC_F)){
+        camera->setPosition(camera->getPosition() - camera->getUp()*trans_factor);
+		last_dir_ = Direction::Down;
+		ship_float = -camera->getUp();
+	}
+ 
 		
     return true;
 }

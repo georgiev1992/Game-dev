@@ -46,6 +46,9 @@ namespace ogre_application {
 			OgreApplication *app_;
 	};
 
+	/* Possible directions of the ship */
+	enum Direction { Forward, Backward, Up, Down, Left, Right };
+
 	/* Our Ogre application */
 	class OgreApplication :
 	    public Ogre::FrameListener, // Derive from FrameListener to be able to have event callbacks
@@ -73,6 +76,9 @@ namespace ogre_application {
 			Ogre::AnimationState *animation_state_; // Keep state of the animation
 			bool animating_; // Whether animation is on or off
 			bool space_down_; // Whether space key was pressed
+
+			// Camera
+			enum Direction last_dir_;
 
 			// Input managers
 			OIS::InputManager *input_manager_;
