@@ -13,6 +13,7 @@ int main(void){
 	try {
 		application.Init();
 		application.CreateTorusGeometry("TorusMesh");
+		application.CreateCube();
 		application.CreateEntity("TorusEnt1" ,"TorusMesh", "Default_Blue_Light");
 		application.SetupAnimation("TorusEnt1");
 		application.MainLoop();

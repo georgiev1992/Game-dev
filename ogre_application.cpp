@@ -379,6 +379,196 @@ void OgreApplication::CreateTorusGeometry(Ogre::String object_name, float loop_r
     }
 }
 
+void OgreApplication::CreateCube(void){
+
+	try {
+		/* Create a cube */
+
+		/* Retrieve scene manager and root scene node */
+		Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+		Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		/* Create the 3D object */
+        Ogre::ManualObject* object = NULL;
+        Ogre::String object_name = "Cube";
+        object = scene_manager->createManualObject(object_name);
+        object->setDynamic(false);
+
+        /* Create triangle list for the object */
+		Ogre::String material_name = "ObjectMaterial";
+        object->begin(material_name, Ogre::RenderOperation::OT_TRIANGLE_LIST);
+
+		/* Vertices of a cube */
+		Ogre::Vector3 v0(-0.5, -0.5,  0.5);
+		Ogre::Vector3 v1( 0.5, -0.5,  0.5);
+		Ogre::Vector3 v2( 0.5,  0.5,  0.5);
+		Ogre::Vector3 v3(-0.5,  0.5,  0.5);
+		Ogre::Vector3 v4(-0.5, -0.5, -0.5);
+		Ogre::Vector3 v5( 0.5, -0.5, -0.5);
+		Ogre::Vector3 v6( 0.5,  0.5, -0.5);
+		Ogre::Vector3 v7(-0.5,  0.5, -0.5);
+
+		/* Normal of each face of the cube */
+		Ogre::Vector3 n0( 0.0,  0.0,  1.0);
+		Ogre::Vector3 n1( 1.0,  0.0,  0.0);
+		Ogre::Vector3 n2( 0.0,  0.0, -1.0);
+		Ogre::Vector3 n3(-1.0,  0.0,  0.0);
+		Ogre::Vector3 n4( 0.0,  1.0,  0.0);
+		Ogre::Vector3 n5( 0.0, -1.0,  0.0);
+
+		/* Cube's color */
+		Ogre::ColourValue clr0(0.0, 0.0, 1.0);
+		Ogre::ColourValue clr1(1.0, 0.0, 1.0);
+		Ogre::ColourValue clr2(1.0, 1.0, 1.0);
+		Ogre::ColourValue clr3(0.0, 1.0, 0.0);
+		Ogre::ColourValue clr4(0.0, 0.0, 1.0);
+		Ogre::ColourValue clr5(1.0, 0.0, 0.0);
+		Ogre::ColourValue clr6(1.0, 1.0, 0.0);
+		Ogre::ColourValue clr7(0.0, 1.0, 0.0);
+		
+		/* This construction only partially uses shared vertices, so that we can assign appropriate vertex normals
+		   to each face */
+		/* Each face of the cube is defined by four vertices (with the same normal) and two triangles */
+		object->position(v0);
+		object->normal(n0);
+		object->textureCoord(0, 0);
+		object->colour(clr0);
+
+		object->position(v1);
+		object->normal(n0);
+		object->textureCoord(1, 1);
+		object->colour(clr1);
+
+		object->position(v2);
+		object->normal(n0);
+		object->textureCoord(1, 1);
+		object->colour(clr2);
+
+		object->position(v3);
+		object->normal(n0);
+		object->textureCoord(0, 1);
+		object->colour(clr3);
+		
+		object->position(v1);
+		object->normal(n1);
+		object->textureCoord(0, 0);
+		object->colour(clr1);
+
+		object->position(v5);
+		object->normal(n1);
+		object->textureCoord(1, 0);
+		object->colour(clr5);
+
+		object->position(v6);
+		object->normal(n1);
+		object->textureCoord(1, 1);
+		object->colour(clr6);
+
+		object->position(v2);
+		object->normal(n1);
+		object->textureCoord(0, 1);
+		object->colour(clr2);
+
+		object->position(v5);
+		object->normal(n2);
+		object->textureCoord(0, 0);
+		object->colour(clr5);
+
+		object->position(v4);
+		object->normal(n2);
+		object->textureCoord(1, 0);
+		object->colour(clr4);
+		
+		object->position(v7);
+		object->normal(n2);
+		object->textureCoord(1, 1);
+		object->colour(clr7);
+
+		object->position(v6);
+		object->normal(n2);
+		object->textureCoord(0, 1);
+		object->colour(clr6);
+
+		object->position(v4);
+		object->normal(n3);
+		object->textureCoord(0, 0);
+		object->colour(clr4);
+
+		object->position(v0);
+		object->normal(n3);
+		object->textureCoord(1, 0);
+		object->colour(clr0);
+
+		object->position(v3);
+		object->normal(n3);
+		object->textureCoord(1, 1);
+		object->colour(clr3);
+
+		object->position(v7);
+		object->normal(n3);
+		object->textureCoord(0, 1);
+		object->colour(clr7);
+
+		object->position(v3);
+		object->normal(n4);
+		object->textureCoord(0, 0);
+		object->colour(clr3);
+
+		object->position(v2);
+		object->normal(n4);
+		object->textureCoord(1, 0);
+		object->colour(clr2);
+
+		object->position(v6);
+		object->normal(n4);
+		object->textureCoord(1, 1);
+		object->colour(clr6);
+
+		object->position(v7);
+		object->normal(n4);
+		object->textureCoord(0, 1);
+		object->colour(clr7);
+
+		object->position(v1);
+		object->normal(n5);
+		object->textureCoord(0, 0);
+		object->colour(clr1);
+
+		object->position(v0);
+		object->normal(n5);
+		object->textureCoord(1, 0);
+		object->colour(clr0);
+
+		object->position(v4);
+		object->normal(n5);
+		object->textureCoord(1, 1);
+		object->colour(clr4);
+
+		object->position(v5);
+		object->normal(n5);
+		object->textureCoord(0, 1);
+		object->colour(clr5);
+
+		for (int i = 0; i < 6; i++){
+			object->triangle(i*4 + 0, i*4 + 1, i*4 + 3);
+			object->triangle(i*4 + 1, i*4 + 2, i*4 + 3);
+		}
+   
+		/* We finished the object */
+        object->end();
+		
+        /* Convert triangle list to a mesh */
+        Ogre::String mesh_name = "Cube";
+        object->convertToMesh(mesh_name);
+
+	}
+    catch (Ogre::Exception &e){
+        throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
+    }
+    catch(std::exception &e){
+        throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
+    }
+}
 
 void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name){
 
@@ -493,6 +683,7 @@ bool OgreApplication::frameEnded(const Ogre::FrameEvent &fe){
 
 	return true;
 }
+
 
 
 bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
