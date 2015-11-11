@@ -183,7 +183,7 @@ void OgreApplication::InitViewport(void){
         camera_->setNearClipDistance(camera_near_clip_distance_g);
         camera_->setFarClipDistance(camera_far_clip_distance_g); 
 
-		camera_->setPosition(Ogre::Vector3(0.0, 0.0, -1.0));
+		camera_->setPosition(Ogre::Vector3(0.0, 0.0, -10.0));
 		camera_->lookAt(Ogre::Vector3(0.0, 0.0, 0.0));
 		camera_->setFixedYawAxis(false);
     }
@@ -789,7 +789,8 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 }
 
 void OgreApplication::CreateModel_2(Ogre::String material_name){
-	/*Ogre::Vector3 invScale;
+	Ogre::Vector3 invScale;
+	int numCubes = 10;
 
 	try {
 		// Create one instance of the torus (one entity) 
@@ -802,7 +803,8 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 		// Create entity
 
 		Ogre::String entity_name, prefix("Cube");
-        for (int i = 0; i < (5); i++){
+
+        for (int i = 0; i < numCubes; i++){
 			// Create entity 
 			entity_name = prefix + Ogre::StringConverter::toString(i);
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
@@ -816,35 +818,70 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 			cube_[i]->attachObject(entity);
 		}
 
-		//Removing hierarchical connecting between nodes
-	
-		root_scene_node->removeChild(cube_[1]);
-		root_scene_node->removeChild(cube_[2]);
-		root_scene_node->removeChild(cube_[3]);
-		root_scene_node->removeChild(cube_[4]);
+		//Removing hierarchical connecting between nodes excluding cube 0
+		for (int i = 1; i < numCubes; i++){
+			root_scene_node->removeChild(cube_[i]);		
+		}
 
-		cube_[0]->scale(1.0, 0.7, 2.0);
+		// --Main Body
+		// Cube 0
+		cube_[0]->scale(0.6, 1.2, 2.0);
 		invScale = 1 / cube_[0]->getScale();
 
 		cube_[0]->translate(-3.0, 0, 0);
 
 		cube_[0]->addChild(cube_[1]);
 		cube_[0]->addChild(cube_[2]);
-		cube_[1]->addChild(cube_[3]);
-		cube_[2]->addChild(cube_[4]);
-
-		for (int i = 1; i < 5; ++i)
-			cube_[i]->scale(invScale);
+		cube_[0]->addChild(cube_[3]);
 		
-
-
+		// Cube 1 and 2
 		cube_[1]->translate(-0.5, 0.0, 0.0);
 		cube_[2]->translate(0.5, 0.0, 0.0);
 
-		cube_[3]->translate(0.0, -0.5, 0.0);
-		cube_[4]->translate(0.0, -0.5, 0.0);
+		cube_[1]->scale(1.0, 0.7, 0.7);
+		cube_[2]->scale(1.0, 0.7, 0.7);
 
+		// Cube 3 
+		cube_[3]->translate(0.0, -0.1, -0.5);
 
+		cube_[3]->scale(invScale);
+		cube_[3]->scale(0.8, 0.6, 0.5);
+
+		// --Guns
+		cube_[1]->addChild(cube_[4]);
+		cube_[2]->addChild(cube_[5]);
+
+		cube_[4]->addChild(cube_[6]);
+		cube_[4]->addChild(cube_[8]);
+
+		cube_[5]->addChild(cube_[7]);
+		cube_[5]->addChild(cube_[9]);
+
+		for (int i = 4; i < 10; ++i) {
+			cube_[i]->scale(1/(cube_[1]->getScale()));
+			cube_[i]->scale(1/(cube_[0]->getScale()));
+		}
+
+		// left gun
+		cube_[4]->scale(1.5, 1.0, 3.0);
+		cube_[4]->translate(-1.7, 0.0, -0.2);
+
+		cube_[6]->scale(0.15, 0.3, 0.3);
+		cube_[6]->translate(-0.3, 0.0, -0.55);
+
+		cube_[8]->scale(0.15, 0.3, 0.3);
+		cube_[8]->translate(0.3, 0.0, -0.55);
+
+		// right gun
+		cube_[5]->scale(1.5, 1.0, 3.0);
+		cube_[5]->translate(1.7, 0.0, -0.2);
+
+		cube_[7]->scale(0.15, 0.3, 0.3);
+		cube_[7]->translate(-0.3, 0.0, -0.55);
+
+		cube_[9]->scale(0.15, 0.3, 0.3);
+		cube_[9]->translate(0.3, 0.0, -0.55);
+		
 
         // Position and rotate the entity with the scene node 
 		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
