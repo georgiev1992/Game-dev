@@ -611,34 +611,43 @@ void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object
 void OgreApplication::CreateModel_1(Ogre::String material_name){
 
 	try {
-		/* Create one instance of the torus (one entity) */
-		/* The same object can have multiple instances or entities */
+		// Create one instance of the torus (one entity) 
+		// The same object can have multiple instances or entities 
 
-		/* Retrieve scene manager and root scene node */
+		// Retrieve scene manager and root scene node 
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
-		/* Create entity */
+
+		Ogre::Vector3 invScale;
+		// Create entity 
 
 		Ogre::String entity_name, prefix("Cube");
         for (int i = 0; i < (5); i++){
-			/* Create entity */
+			// Create entity 
 			entity_name = prefix + Ogre::StringConverter::toString(i);
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
-			entity->setMaterialName(material_name);
+			if(i==0)
+				entity->setMaterialName(material_name); // material for the main block
+			else if(i == 1 || i == 2)
+				entity->setMaterialName("Toon_Three"); // material for the 2 side blocks
+			else
+				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
-			/* Create a scene node for the entity */
-			/* The scene node keeps track of the entity's position */
+			// Create a scene node for the entity 
+			// The scene node keeps track of the entity's position 
 			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
 			cube_[i]->attachObject(entity);
 		}
 
 		Ogre::Entity* entity = scene_manager->createEntity("Torus_1", "TorusMesh");
-		/* Apply a material to the entity to give it color */
-		entity->setMaterialName(material_name);
-		/* The scene node keeps track of the entity's position */
+		// Apply a material to the entity to give it color 
+
+		entity->setMaterialName("Default_Blue_Light"); // material for the torus
+
+		// The scene node keeps track of the entity's position 
 		Ogre::SceneNode* torus1 = root_scene_node->createChildSceneNode("Torus_1");
 		torus1->attachObject(entity);
 
@@ -656,26 +665,33 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 		torus1->addChild(cube_[3]);
 		torus1->addChild(cube_[4]);
 
-		
+		// main block
 		cube_[0]->scale(0.5, 0.1, 0.1);
+		invScale = 1 / cube_[0]->getScale();
+
+			for (int i = 1; i < 3; ++i)
+			cube_[i]->scale(invScale);
 		
+		// side blocks
+		cube_[1]->scale(0.2, 0.2, 0.12);
+		cube_[1]->translate(0.5,0,0);
 
-		cube_[1]->scale(0.5, 2.5, 2.5);
-		cube_[1]->translate(2,0,0);
+		cube_[2]->scale(0.2, 0.2, 0.12);
+		cube_[2]->translate(-0.5,0,0);
 
-		cube_[2]->scale(0.5, 2.5, 2.5);
-		cube_[2]->translate(-200,0,0);
+		//blocks inside torus
+		cube_[3]->scale(0.8, 0.25, 0.1);
+		cube_[3]->translate(0,0,0);
 
-		cube_[3]->scale(0.5, 2.5, 2.5);
-		cube_[3]->translate(-200,2,0);
+		cube_[4]->scale(0.25, 0.8, 0.1);
+		cube_[4]->translate(0,0,0);
 
-		cube_[4]->scale(0.5, 2.5, 2.5);
-		cube_[1]->translate(200,-2,0);
-
+		//torus
 		torus1->scale(0.5, 2.5, 2.5);
-		torus1->translate(1,0,200);
+		torus1->rotate(Ogre::Vector3(0,1,0), Ogre::Degree(90));
+		torus1->translate(0,0,0);
 
-        /* Position and rotate the entity with the scene node */
+        // Position and rotate the entity with the scene node 
 		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
 		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
         //scene_node->translate(0.0, 0.0, 0.0);
@@ -691,29 +707,29 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 }
 
 void OgreApplication::CreateModel_2(Ogre::String material_name){
-	Ogre::Vector3 invScale;
+	/*Ogre::Vector3 invScale;
 
 	try {
-		/* Create one instance of the torus (one entity) */
-		/* The same object can have multiple instances or entities */
+		// Create one instance of the torus (one entity) 
+		// The same object can have multiple instances or entities 
 
-		/* Retrieve scene manager and root scene node */
+		// Retrieve scene manager and root scene node 
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
-		/* Create entity */
+		// Create entity
 
 		Ogre::String entity_name, prefix("Cube");
         for (int i = 0; i < (5); i++){
-			/* Create entity */
+			// Create entity 
 			entity_name = prefix + Ogre::StringConverter::toString(i);
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
 			entity->setMaterialName(material_name);
 
-			/* Create a scene node for the entity */
-			/* The scene node keeps track of the entity's position */
+			// Create a scene node for the entity 
+			// The scene node keeps track of the entity's position 
 			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
 			cube_[i]->attachObject(entity);
 		}
@@ -748,7 +764,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 
 
 
-        /* Position and rotate the entity with the scene node */
+        // Position and rotate the entity with the scene node 
 		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
 		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
         //scene_node->translate(0.0, 0.0, 0.0);
@@ -761,7 +777,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
     catch(std::exception &e){
         throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
     }
-
+	*/
 }
 
 
