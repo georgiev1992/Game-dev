@@ -15,8 +15,8 @@ int main(void){
 		application.CreateTorusGeometry("TorusMesh");
 		application.CreateCube();
 		//application.CreateEntity("TorusEnt1" ,"TorusMesh", "Default_Blue_Light");
-		//application.CreateModel_1("Toon_One_Blue_Lighted");
-		application.CreateModel_2("Toon_One_Blue_Lighted");
+		application.CreateModel_1("Toon_One_Blue_Lighted");
+		//application.CreateModel_2("Toon_One_Blue_Lighted");
 
 		//application.SetupAnimation("TorusEnt1");
 		application.MainLoop();
