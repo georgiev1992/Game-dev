@@ -802,7 +802,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 
 		// Create entity
 
-		Ogre::String entity_name, prefix("Cube");
+		Ogre::String entity_name, prefix("Cube2");
 
         for (int i = 0; i < numCubes; i++){
 			// Create entity 
@@ -896,7 +896,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
     catch(std::exception &e){
         throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
     }
-	*/
+	
 }
 
 
