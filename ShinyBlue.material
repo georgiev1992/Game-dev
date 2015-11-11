@@ -187,3 +187,23 @@ material Toon_Four
     }
 }
 
+/*************************Skybox********************/
+
+material SkyBox
+{
+	technique
+	{
+		pass
+		{
+			fog_override true none
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture FR_skybox.jpg BN_skybox.jpg LF_skybox.jpg RF_skybox.jpg UP_skybox.jpg DN_skybox.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}

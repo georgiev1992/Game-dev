@@ -63,6 +63,9 @@ namespace ogre_application {
 			void CreateTorusGeometry(Ogre::String object_name, float loop_radius = 0.6, float circle_radius = 0.2, int num_loop_samples = 90, int num_circle_samples = 30); 
 			// Create an entity of an object that we can show on the screen
 			void CreateCube(void);
+			// Create geometry of a sphere and add it to the available resources
+            void CreateSphereGeometry(Ogre::String object_name, float radius = 0.6, int num_samples_theta = 90, int num_samples_phi = 45);
+			
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
 			void CreateModel_1(Ogre::String material_name);
 			void CreateModel_2(Ogre::String material_name);
