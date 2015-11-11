@@ -136,3 +136,54 @@ material Toon_Two_Blue_Lighted
 
 
 
+/*************************TOON_THREE********************/
+//shaded with 3 thresholds of colors 2 light sources and thicker outline
+
+
+material Toon_Three
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture T4.jpg 2d
+			}
+        } 
+    }
+}
+
+
+/*************************TOON_FOUR********************/
+//shaded with 3 thresholds of colors 2 light sources and thicker outline
+
+
+material Toon_Four
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture T5.jpg 2d
+			}
+        } 
+    }
+}
+
