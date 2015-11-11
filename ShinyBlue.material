@@ -45,7 +45,7 @@ material Default_Blue_Light
             }
 
 			texture_unit {
-				texture T1.png 2d
+				texture textures/T1.png 2d
 			}
         } 
     }
@@ -87,7 +87,7 @@ material Toon_One_Blue_Lighted
             }
 
 			texture_unit {
-				texture T2.png 2d
+				texture textures/T2.png 2d
 			}
         } 
     }
@@ -128,7 +128,7 @@ material Toon_Two_Blue_Lighted
             }
 
 			texture_unit {
-				texture T3.png 2d
+				textures/texture T3.png 2d
 			}
         } 
     }
@@ -155,7 +155,7 @@ material Toon_Three
             }
 
 			texture_unit {
-				texture T4.jpg 2d
+				textures/texture T4.jpg 2d
 			}
         } 
     }
@@ -181,7 +181,7 @@ material Toon_Four
             }
 
 			texture_unit {
-				texture T5.jpg 2d
+				texture textures/T5.jpg 2d
 			}
         } 
     }
@@ -201,7 +201,7 @@ material SkyBox
 
 			texture_unit
 			{
-				cubic_texture FR_skybox.jpg BN_skybox.jpg LF_skybox.jpg RF_skybox.jpg UP_skybox.jpg DN_skybox.jpg separateUV
+				cubic_texture textures/1.png textures/2.png textures/3.png textures/4.png textures/5.png textures/6.png separateUV
 				tex_address_mode clamp
 			}
 		}

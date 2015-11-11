@@ -699,7 +699,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
-		scene_manager->setSkyBox(true, "SkyBox", 300);
+		scene_manager->setSkyBox(true, "SkyBox",50, false);
 
 		Ogre::Vector3 invScale;
 		// Create entity 
