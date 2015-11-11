@@ -828,7 +828,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 		cube_[0]->scale(0.6, 1.2, 2.0);
 		invScale = 1 / cube_[0]->getScale();
 
-		cube_[0]->translate(-3.0, 0, 0);
+		cube_[0]->translate(-1.0, 0, 0);
 
 		cube_[0]->addChild(cube_[1]);
 		cube_[0]->addChild(cube_[2]);
@@ -881,6 +881,8 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 
 		cube_[9]->scale(0.15, 0.3, 0.3);
 		cube_[9]->translate(0.3, 0.0, -0.55);
+
+		cube_[0]->scale(0.2, 0.2, 0.2);
 		
 
         // Position and rotate the entity with the scene node 
