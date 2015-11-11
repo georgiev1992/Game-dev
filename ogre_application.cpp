@@ -28,7 +28,7 @@ unsigned short viewport_z_order_g = 100;
 float camera_near_clip_distance_g = 0.01;
 float camera_far_clip_distance_g = 100.0;
 Ogre::Vector3 camera_position_g(0.5, 0.5, 1.5);
-Ogre::Vector3 camera_look_at_g(0.0, 0.0, 0.0);
+Ogre::Vector3 camera_look_at_g(0.0, 0.5, 0.0);
 Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 
@@ -183,7 +183,7 @@ void OgreApplication::InitViewport(void){
         camera_->setNearClipDistance(camera_near_clip_distance_g);
         camera_->setFarClipDistance(camera_far_clip_distance_g); 
 
-		camera_->setPosition(Ogre::Vector3(0.5, 0.5, 1.5));
+		camera_->setPosition(Ogre::Vector3(0.0, 0.0, -1.0));
 		camera_->lookAt(Ogre::Vector3(0.0, 0.0, 0.0));
 		camera_->setFixedYawAxis(false);
     }
@@ -679,7 +679,77 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
     }
 }
 
-void OgreApplication::CreateModel_2(){
+void OgreApplication::CreateModel_2(Ogre::String material_name){
+	Ogre::Vector3 invScale;
+
+	try {
+		/* Create one instance of the torus (one entity) */
+		/* The same object can have multiple instances or entities */
+
+		/* Retrieve scene manager and root scene node */
+        Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		/* Create entity */
+
+		Ogre::String entity_name, prefix("Cube");
+        for (int i = 0; i < (5); i++){
+			/* Create entity */
+			entity_name = prefix + Ogre::StringConverter::toString(i);
+			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
+
+			//Change material
+			entity->setMaterialName(material_name);
+
+			/* Create a scene node for the entity */
+			/* The scene node keeps track of the entity's position */
+			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
+			cube_[i]->attachObject(entity);
+		}
+
+		//Removing hierarchical connecting between nodes
+	
+		root_scene_node->removeChild(cube_[1]);
+		root_scene_node->removeChild(cube_[2]);
+		root_scene_node->removeChild(cube_[3]);
+		root_scene_node->removeChild(cube_[4]);
+
+		cube_[0]->scale(1.0, 0.7, 2.0);
+		invScale = 1 / cube_[0]->getScale();
+
+		cube_[0]->translate(-3.0, 0, 0);
+
+		cube_[0]->addChild(cube_[1]);
+		cube_[0]->addChild(cube_[2]);
+		cube_[1]->addChild(cube_[3]);
+		cube_[2]->addChild(cube_[4]);
+
+		for (int i = 1; i < 5; ++i)
+			cube_[i]->scale(invScale);
+		
+
+
+		cube_[1]->translate(-0.5, 0.0, 0.0);
+		cube_[2]->translate(0.5, 0.0, 0.0);
+
+		cube_[3]->translate(0.0, -0.5, 0.0);
+		cube_[4]->translate(0.0, -0.5, 0.0);
+
+
+
+        /* Position and rotate the entity with the scene node */
+		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
+		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
+        //scene_node->translate(0.0, 0.0, 0.0);
+		//scene_node->scale(0.5, 0.5, 0.5);
+
+	}
+    catch (Ogre::Exception &e){
+        throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
+    }
+    catch(std::exception &e){
+        throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
+    }
 
 }
 

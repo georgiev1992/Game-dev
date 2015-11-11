@@ -65,7 +65,7 @@ namespace ogre_application {
 			void CreateCube(void);
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
 			void CreateModel_1(Ogre::String material_name);
-			void CreateModel_2();
+			void CreateModel_2(Ogre::String material_name);
 
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
