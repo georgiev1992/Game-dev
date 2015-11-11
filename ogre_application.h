@@ -77,7 +77,7 @@ namespace ogre_application {
             Ogre::RenderWindow* ogre_window_;
 
 			// Object Nodes
-			Ogre::SceneNode* cube_[5];
+			Ogre::SceneNode* cube_[20];
 
 			// For animating the sphere
 			Ogre::AnimationState *animation_state_; // Keep state of the animation
