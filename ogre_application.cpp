@@ -714,7 +714,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 			if(i==0)
 				entity->setMaterialName(material_name); // material for the main block
 			else if(i == 1 || i == 2)
-				entity->setMaterialName("Toon_Three"); // material for the 2 side blocks
+				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
 			else
 				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
