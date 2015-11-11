@@ -608,7 +608,7 @@ void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object
     }
 }
 
-void OgreApplication::CreateModel_1(Ogre::String object_name, Ogre::String material_name){
+void OgreApplication::CreateModel_1(Ogre::String material_name){
 
 	try {
 		/* Create one instance of the torus (one entity) */
@@ -619,23 +619,56 @@ void OgreApplication::CreateModel_1(Ogre::String object_name, Ogre::String mater
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
 		/* Create entity */
-        Ogre::Entity* entity = scene_manager->createEntity(object_name);
 
+		Ogre::String entity_name, prefix("Cube");
+        for (int i = 0; i < (5); i++){
+			/* Create entity */
+			entity_name = prefix + Ogre::StringConverter::toString(i);
+			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
+
+			//Change material
+			entity->setMaterialName(material_name);
+
+			/* Create a scene node for the entity */
+			/* The scene node keeps track of the entity's position */
+			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
+			cube_[i]->attachObject(entity);
+		}
+
+		Ogre::Entity* entity = scene_manager->createEntity("Torus_1", "TorusMesh");
 		/* Apply a material to the entity to give it color */
-		/* We already did that above, so we comment it out here */
 		entity->setMaterialName(material_name);
-		/* But, this call is useful if we have multiple entities with different materials */
-
-		/* Create a scene node for the entity */
 		/* The scene node keeps track of the entity's position */
-        Ogre::SceneNode* scene_node = root_scene_node->createChildSceneNode("Base");
-        scene_node->attachObject(entity);
+		Ogre::SceneNode* torus1 = root_scene_node->createChildSceneNode("Torus_1");
+		torus1->attachObject(entity);
+
+		//Removing hierarchical connecting between nodes
+	
+		root_scene_node->removeChild(cube_[1]);
+		root_scene_node->removeChild(cube_[2]);
+		root_scene_node->removeChild(cube_[3]);
+		root_scene_node->removeChild(cube_[4]);
+		root_scene_node->removeChild(torus1);
+
+		cube_[0]->addChild(cube_[1]);
+		cube_[0]->addChild(cube_[2]);
+		cube_[0]->addChild(torus1);
+		torus1->addChild(cube_[3]);
+		torus1->addChild(cube_[4]);
+
+		
+		cube_[0]->scale(0.5, 0.5, 0.5);
+		cube_[1]->scale(0.5, 0.5, 0.5);
+		cube_[2]->scale(0.5, 0.5, 0.5);
+		cube_[3]->scale(0.5, 0.5, 0.5);
+		cube_[4]->scale(0.5, 0.5, 0.5);
+		torus1->scale(0.5, 0.5, 0.5);
 
         /* Position and rotate the entity with the scene node */
 		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
 		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
         //scene_node->translate(0.0, 0.0, 0.0);
-		scene_node->scale(0.5, 0.5, 0.5);
+		//scene_node->scale(0.5, 0.5, 0.5);
 
 	}
     catch (Ogre::Exception &e){

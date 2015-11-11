@@ -64,8 +64,9 @@ namespace ogre_application {
 			// Create an entity of an object that we can show on the screen
 			void CreateCube(void);
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
-			void CreateModel_1(Ogre::String object_name, Ogre::String material_name);
+			void CreateModel_1(Ogre::String material_name);
 			void CreateModel_2();
+
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
 
@@ -74,6 +75,9 @@ namespace ogre_application {
             std::auto_ptr<Ogre::Root> ogre_root_;
             // Application main Ogre window
             Ogre::RenderWindow* ogre_window_;
+
+			// Object Nodes
+			Ogre::SceneNode* cube_[5];
 
 			// For animating the sphere
 			Ogre::AnimationState *animation_state_; // Keep state of the animation
