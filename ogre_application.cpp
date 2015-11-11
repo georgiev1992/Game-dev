@@ -896,10 +896,6 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
     catch(std::exception &e){
         throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
     }
-<<<<<<< HEAD
-=======
-	
->>>>>>> origin/master
 }
 
 
