@@ -657,12 +657,23 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 		torus1->addChild(cube_[4]);
 
 		
-		cube_[0]->scale(0.5, 0.5, 0.5);
-		cube_[1]->scale(0.5, 0.5, 0.5);
-		cube_[2]->scale(0.5, 0.5, 0.5);
-		cube_[3]->scale(0.5, 0.5, 0.5);
-		cube_[4]->scale(0.5, 0.5, 0.5);
-		torus1->scale(0.5, 0.5, 0.5);
+		cube_[0]->scale(0.5, 0.1, 0.1);
+		
+
+		cube_[1]->scale(0.5, 2.5, 2.5);
+		cube_[1]->translate(2,0,0);
+
+		cube_[2]->scale(0.5, 2.5, 2.5);
+		cube_[2]->translate(-200,0,0);
+
+		cube_[3]->scale(0.5, 2.5, 2.5);
+		cube_[3]->translate(-200,2,0);
+
+		cube_[4]->scale(0.5, 2.5, 2.5);
+		cube_[1]->translate(200,-2,0);
+
+		torus1->scale(0.5, 2.5, 2.5);
+		torus1->translate(1,0,200);
 
         /* Position and rotate the entity with the scene node */
 		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
@@ -765,7 +776,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
   
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
 	Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
-	Ogre::SceneNode *Torus = scene_manager->getSceneNode("TorusEnt1");
+	//Ogre::SceneNode *Torus = scene_manager->getSceneNode("TorusEnt1");
 	/* For the camera */
 	Ogre::Camera* camera = scene_manager->getCamera("MyCamera");
 	if (!camera){
@@ -807,16 +818,16 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	if (keyboard_->isKeyDown(OIS::KC_C) && keydown == false){
 		keydown = true;
 		if(toon == 0){
-			Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
-			mEntity->setMaterialName("Toon_One_Blue_Lighted");
+			//Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
+			//mEntity->setMaterialName("Toon_One_Blue_Lighted");
 			toon+=1;
 		}else if(toon == 1){
-			Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
-			mEntity->setMaterialName("Toon_Two_Blue_Lighted");
+			//Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
+			//mEntity->setMaterialName("Toon_Two_Blue_Lighted");
 			toon+=1;
 		}else{
-			Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
-			mEntity->setMaterialName("Default_Blue_Light");
+			//Ogre::Entity* mEntity = static_cast<Ogre::Entity*>(Torus->getAttachedObject(0));
+			//mEntity->setMaterialName("Default_Blue_Light");
 			toon=0;
 		}
 	}
