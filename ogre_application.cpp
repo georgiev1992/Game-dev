@@ -185,7 +185,7 @@ void OgreApplication::InitViewport(void){
 
 		camera_->setPosition(Ogre::Vector3(0.5, 0.5, 1.5));
 		camera_->lookAt(Ogre::Vector3(0.0, 0.0, 0.0));
-		camera_->setFixedYawAxis(true, Ogre::Vector3(0.0, 1.0, 0.0));
+		camera_->setFixedYawAxis(false);
     }
     catch (Ogre::Exception &e){
         throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
@@ -395,7 +395,7 @@ void OgreApplication::CreateCube(void){
         object->setDynamic(false);
 
         /* Create triangle list for the object */
-		Ogre::String material_name = "ObjectMaterial";
+		Ogre::String material_name = "ShinyBlue";
         object->begin(material_name, Ogre::RenderOperation::OT_TRIANGLE_LIST);
 
 		/* Vertices of a cube */
@@ -646,6 +646,10 @@ void OgreApplication::CreateModel_1(Ogre::String object_name, Ogre::String mater
     }
 }
 
+void OgreApplication::CreateModel_2(){
+
+}
+
 
 void OgreApplication::MainLoop(void){
 
@@ -815,11 +819,11 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_Q)){
-		camera->roll(-rot_factor);
+		camera->roll(rot_factor);
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_E)){
-		camera->roll(rot_factor);
+		camera->roll(-rot_factor);
 	}
 
 	/* Camera translation */
