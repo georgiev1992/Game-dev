@@ -691,7 +691,7 @@ void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object
     }
 }
 
-void OgreApplication::CreateModel_1(Ogre::String material_name){
+void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y, float z, int nm){
 
 	try {
 		// Create one instance of the torus (one entity) 
@@ -708,7 +708,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 		Ogre::Vector3 invScale;
 		// Create entity 
 
-		Ogre::String entity_name, prefix("Cube");
+		Ogre::String entity_name, prefix("Cube" + std::to_string(nm));
         for (int i = 0; i < (5); i++){
 			// Create entity 
 			entity_name = prefix + Ogre::StringConverter::toString(i);
@@ -728,7 +728,8 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 			cube_[i]->attachObject(entity);
 		}
 
-		Ogre::Entity* entity = scene_manager->createEntity("Torus_1", "TorusMesh");
+		Ogre::String e_n = "Torus_1" + std::to_string(nm);
+		Ogre::Entity* entity = scene_manager->createEntity(e_n, "TorusMesh");
 		// Apply a material to the entity to give it color 
 
 		entity->setMaterialName("Default_Blue_Light"); // material for the torus
@@ -753,6 +754,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 
 		// main block
 		cube_[0]->scale(0.5, 0.1, 0.1);
+		cube_[0]->translate(x,y,z);
 		invScale = 1 / cube_[0]->getScale();
 
 			for (int i = 1; i < 3; ++i)
@@ -792,7 +794,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
     }
 }
 
-void OgreApplication::CreateModel_2(Ogre::String material_name){
+void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y, float z, int nm){
 	Ogre::Vector3 invScale;
 	int numCubes = 10;
 
@@ -806,7 +808,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 
 		// Create entity
 
-		Ogre::String entity_name, prefix("Cube2");
+		Ogre::String entity_name, prefix("Cube" + std::to_string(nm));
 
         for (int i = 0; i < numCubes; i++){
 			// Create entity 
@@ -837,7 +839,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 		cube_[0]->scale(0.6, 1.2, 2.0);
 		invScale = 1 / cube_[0]->getScale();
 
-		cube_[0]->translate(-1.0, 0, 0);
+		cube_[0]->translate(x, 0+y, 0+z);
 
 		cube_[0]->addChild(cube_[1]);
 		cube_[0]->addChild(cube_[2]);
