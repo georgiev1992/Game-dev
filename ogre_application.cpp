@@ -166,6 +166,8 @@ void OgreApplication::InitViewport(void){
         Ogre::SceneManager* scene_manager = ogre_root_->createSceneManager(Ogre::ST_GENERIC, "MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
+		
+
         /* Create camera object */
         camera_ = scene_manager->createCamera("MyCamera");
         Ogre::SceneNode* camera_scene_node = root_scene_node->createChildSceneNode("MyCameraNode");
@@ -699,7 +701,9 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
+
 		scene_manager->setSkyBox(true, "SkyBox",50, false);
+
 
 		Ogre::Vector3 invScale;
 		// Create entity 
