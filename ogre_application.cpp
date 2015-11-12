@@ -816,9 +816,9 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
-			if(i==0)
+			if(i < 4)
 				entity->setMaterialName(material_name); // material for the main block
-			else if(i == 1 || i == 2)
+			else if(i < 6)
 				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
 			else
 				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
