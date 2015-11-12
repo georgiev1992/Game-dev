@@ -814,7 +814,12 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
-			entity->setMaterialName(material_name);
+			if(i==0)
+				entity->setMaterialName(material_name); // material for the main block
+			else if(i == 1 || i == 2)
+				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
+			else
+				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
 			// Create a scene node for the entity 
 			// The scene node keeps track of the entity's position 
