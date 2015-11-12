@@ -701,7 +701,10 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
-		scene_manager->setSkyBox(true, "SkyBox");
+
+		scene_manager->setSkyBox(true, "SkyBox",50, false);
+
+
 		Ogre::Vector3 invScale;
 		// Create entity 
 
@@ -715,7 +718,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name){
 			if(i==0)
 				entity->setMaterialName(material_name); // material for the main block
 			else if(i == 1 || i == 2)
-				entity->setMaterialName("Toon_Three"); // material for the 2 side blocks
+				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
 			else
 				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
@@ -829,7 +832,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 		cube_[0]->scale(0.6, 1.2, 2.0);
 		invScale = 1 / cube_[0]->getScale();
 
-		cube_[0]->translate(-3.0, 0, 0);
+		cube_[0]->translate(-1.0, 0, 0);
 
 		cube_[0]->addChild(cube_[1]);
 		cube_[0]->addChild(cube_[2]);
@@ -882,6 +885,8 @@ void OgreApplication::CreateModel_2(Ogre::String material_name){
 
 		cube_[9]->scale(0.15, 0.3, 0.3);
 		cube_[9]->translate(0.3, 0.0, -0.55);
+
+		cube_[0]->scale(0.2, 0.2, 0.2);
 		
 
         // Position and rotate the entity with the scene node 
