@@ -737,7 +737,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 		entity->setMaterialName("Default_Blue_Light"); // material for the torus
 
 		// The scene node keeps track of the entity's position 
-		Ogre::SceneNode* torus1 = root_scene_node->createChildSceneNode("Torus_1");
+		Ogre::SceneNode* torus1 = root_scene_node->createChildSceneNode(e_n);
 		torus1->attachObject(entity);
 
 		//Removing hierarchical connecting between nodes
