@@ -27,8 +27,8 @@ float viewport_top_g = (1.0f - viewport_height_g) * 0.5f;
 unsigned short viewport_z_order_g = 100;
 float camera_near_clip_distance_g = 0.01;
 float camera_far_clip_distance_g = 100.0;
-Ogre::Vector3 camera_position_g(0.5, 0.5, 1.5);
-Ogre::Vector3 camera_look_at_g(0.0, 0.5, 0.0);
+Ogre::Vector3 camera_position_g(0,0,2);
+Ogre::Vector3 camera_look_at_g(0.0, 0.0, 0.0);
 Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 
@@ -978,7 +978,7 @@ void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y
 		//scene_node->scale(0.5, 0.5, 0.5);
 
 		cube_[0]->translate(x, 0+y, 0+z);
-
+		
 		//Center of ship
 		cube_[0]->scale(2.0, 0.25, 0.25);
 
@@ -1124,6 +1124,12 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//Ogre::SceneNode *Torus = scene_manager->getSceneNode("TorusEnt1");
 	/* For the camera */
 	Ogre::Camera* camera = scene_manager->getCamera("MyCamera");
+	Ogre::Quaternion qOld = camera->getDerivedOrientation();
+	Ogre::Vector3 pos = camera->getPosition(), forw, right, up;
+	forw = qOld * Ogre::Vector3(0,0,-1);
+	up = qOld * Ogre::Vector3(0,1,0);
+	right = forw.crossProduct(up);
+
 	if (!camera){
 		return false;
 	}
@@ -1192,64 +1198,71 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	/* Apply user commands */
 	/* Camera rotation */
 	if (keyboard_->isKeyDown(OIS::KC_UP)){
-		camera->pitch(rot_factor);
+		qOld = Ogre::Quaternion(rot_factor, right) * qOld;
+		qOld.normalise();
 	}
 	
 	if (keyboard_->isKeyDown(OIS::KC_DOWN)){
-		camera->pitch(-rot_factor);
+		qOld = Ogre::Quaternion(-rot_factor, right) * qOld;
+		qOld.normalise();
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_LEFT)){
-		camera->yaw(rot_factor);
+		qOld = Ogre::Quaternion(rot_factor, up) * qOld;
+		qOld.normalise();
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_RIGHT)){
-		camera->yaw(-rot_factor);
+		qOld = Ogre::Quaternion(-rot_factor, up) * qOld;
+		qOld.normalise();
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_Q)){
-		camera->roll(rot_factor);
+		qOld = Ogre::Quaternion(-rot_factor, forw) * qOld;
+		qOld.normalise();
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_E)){
-		camera->roll(-rot_factor);
+		qOld = Ogre::Quaternion(rot_factor, forw) * qOld;
+		qOld.normalise();
 	}
+	camera->setOrientation(qOld);
 
 	/* Camera translation */
 	if (keyboard_->isKeyDown(OIS::KC_W)){
-		camera->setPosition(camera->getPosition() + camera->getDirection()*trans_factor);
+		camera->setPosition(pos + forw*trans_factor);
 		last_dir_ = Direction::Forward;
-		ship_float = camera->getDirection();
+		ship_float = forw;
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_S)){
-		camera->setPosition(camera->getPosition() - camera->getDirection()*trans_factor);
+		camera->setPosition(pos - forw*trans_factor);
 		last_dir_ = Direction::Backward;
-		ship_float = -camera->getDirection();
+		ship_float = -forw;
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_A)){
-        camera->setPosition(camera->getPosition() - camera->getRight()*trans_factor);
+        camera->setPosition(pos - right*trans_factor);
 		last_dir_ = Direction::Left;
-		ship_float = -camera->getRight();
+		ship_float = -right;
 	}
 	
 	if (keyboard_->isKeyDown(OIS::KC_D)){
-		camera->setPosition(camera->getPosition() + camera->getRight()*trans_factor);
+		camera->setPosition(pos + right*trans_factor);
 		last_dir_ = Direction::Right;
-		ship_float = camera->getRight();
+		ship_float = right;
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_R)){
-        camera->setPosition(camera->getPosition() + camera->getUp()*trans_factor);
+        camera->setPosition(pos + up*trans_factor);
 		last_dir_ = Direction::Up;
-		ship_float = camera->getUp();
+		ship_float = up;
 	}
 	
 	if (keyboard_->isKeyDown(OIS::KC_F)){
-        camera->setPosition(camera->getPosition() - camera->getUp()*trans_factor);
+        camera->setPosition(pos - up*trans_factor);
 		last_dir_ = Direction::Down;
-		ship_float = -camera->getUp();
+		ship_float = -up;
 	}
  
 		
