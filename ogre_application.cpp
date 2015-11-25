@@ -818,10 +818,10 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
-			if(i < 4)
-				entity->setMaterialName(material_name); // material for the main block
+			if(i < 3)
+				entity->setMaterialName("Default_Blue_Light"); // material for the main block
 			else if(i < 6)
-				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
+				entity->setMaterialName(material_name); // material for the 2 side blocks
 			else
 				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
@@ -903,6 +903,132 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
         //scene_node->translate(0.0, 0.0, 0.0);
 		//scene_node->scale(0.5, 0.5, 0.5);
+
+	}
+    catch (Ogre::Exception &e){
+        throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
+    }
+    catch(std::exception &e){
+        throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
+    }
+}
+
+void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y, float z, int nm){
+	const int numCubes = 7;
+	const int numTorus = 2;
+	Ogre::SceneNode* torus_[numTorus];
+
+	try {
+		// Retrieve scene manager and root scene node 
+        Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		// Create entity
+		Ogre::String entity_name, prefix("Cube" + std::to_string(nm));
+
+        for (int i = 0; i < numCubes; i++){
+			// Create entity 
+			entity_name = prefix + Ogre::StringConverter::toString(i);
+			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
+
+			//Change material
+			if(i == 1)
+				entity->setMaterialName(material_name); // material for engine
+			else if(i < 4)
+				entity->setMaterialName(material_name); // material for the connectors
+			else
+				entity->setMaterialName("Default_Blue_Light"); // material for the guns
+
+			// Create a scene node for the entity 
+			// The scene node keeps track of the entity's position 
+			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
+			cube_[i]->attachObject(entity);
+		}
+
+		//Removing hierarchical connecting between nodes excluding cube 0
+		for (int i = 1; i < numCubes; i++){
+			root_scene_node->removeChild(cube_[i]);		
+		}
+
+		prefix = "Torus" + std::to_string(nm);
+
+		for (int i = 0; i < numTorus; i++){
+			// Create entity 
+			entity_name = prefix + Ogre::StringConverter::toString(i);
+			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "TorusMesh");
+
+			//Change Material
+			entity->setMaterialName("Toon_Four");
+
+			// Create a scene node for the entity 
+			// The scene node keeps track of the entity's position 
+			torus_[i] = root_scene_node->createChildSceneNode(entity_name);
+			torus_[i]->attachObject(entity);
+		}
+
+		//Removing hierarchical connection between torus nodes
+		for (int i = 0; i < numTorus; i++){
+			root_scene_node->removeChild(torus_[i]);		
+		}
+
+        // Position and rotate the entity with the scene node 
+		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
+		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
+        //scene_node->translate(0.0, 0.0, 0.0);
+		//scene_node->scale(0.5, 0.5, 0.5);
+
+		cube_[0]->translate(x, 0+y, 0+z);
+
+		//Center of ship
+		cube_[0]->scale(2.0, 0.25, 0.25);
+
+		for (int i = 1; i < numCubes; ++i)
+			cube_[i]->scale(1/cube_[0]->getScale());
+
+		cube_[0]->addChild(cube_[1]);
+		cube_[1]->scale(0.75, 0.75, 2.0);
+		cube_[1]->translate(-0.6, 0, 0);
+
+		cube_[0]->addChild(cube_[6]);
+		cube_[6]->scale(0.5, 0.5, 2.0);
+		cube_[6]->translate(0.6, 0, -2.5);
+
+
+		cube_[0]->addChild(torus_[0]);
+		torus_[0]->scale(1/cube_[0]->getScale());
+		torus_[0]->scale(1.0, 0.5, 1.0);
+		torus_[0]->pitch(Ogre::Degree(45));
+
+		cube_[0]->addChild(torus_[1]);
+		torus_[1]->scale(1/cube_[0]->getScale());
+		torus_[1]->scale(1.0, 0.5, 1.0);
+		torus_[1]->pitch(Ogre::Degree(-45));
+
+		//Right side of ship
+		cube_[1]->addChild(cube_[2]);
+		cube_[2]->scale(1/cube_[1]->getScale());
+		cube_[2]->scale(0.25, 0.5, 0.25);
+		cube_[2]->translate(0, 0.6, 0);
+
+		cube_[1]->addChild(cube_[3]);
+		cube_[3]->scale(1/cube_[1]->getScale());
+		cube_[3]->scale(0.25, 0.5, 0.25);
+		cube_[3]->translate(0, -0.6, 0);
+
+		cube_[2]->addChild(cube_[4]);
+		cube_[4]->scale(1/cube_[4]->_getDerivedScale());
+		cube_[4]->scale(0.5, 0.5, 2.0);
+		cube_[4]->translate(0, 0.6, -2.5);
+
+		cube_[3]->addChild(cube_[5]);
+		cube_[5]->scale(1/cube_[5]->_getDerivedScale());
+		cube_[5]->scale(0.5, 0.5, 2.0);
+		cube_[5]->translate(0, -0.6, -2.5);
+
+		cube_[0]->scale(Ogre::Vector3(0.5));
+
+
+
 
 	}
     catch (Ogre::Exception &e){

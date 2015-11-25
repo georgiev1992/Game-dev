@@ -69,6 +69,7 @@ namespace ogre_application {
             void CreateEntity(Ogre::String entity_name, Ogre::String object_name, Ogre::String material_name);
 			void CreateModel_1(Ogre::String material_name, float x=0, float y=0, float z=0, int nm=0);
 			void CreateModel_2(Ogre::String material_name, float x=0, float y=0, float z=0, int nm=0);
+			void CreateModel_3(Ogre::String material_name, float x=0, float y=0, float z=0, int nm=0);
 
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
