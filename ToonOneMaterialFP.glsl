@@ -92,9 +92,7 @@ void main()
 
 	gl_FragColor = (ambient_colour + Id*diffuse_colour+ Id2*diffuse_colour)*pixel + Is*specular_colour + Is2*specular_colour;
 
-	if(max(dot(N,V), 0.0) < 0.2){
-		gl_FragColor = outline_colour;
-	}
+
 		
 	
 	// For debug, we can display the different values

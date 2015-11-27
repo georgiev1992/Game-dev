@@ -20,6 +20,7 @@ int main(void){
 		application.CreateModel_1("Toon_One_Blue_Lighted", -2, 0, 0, 1);
 		application.CreateModel_2("Toon_One_Blue_Lighted", -1, 0, 0, 2);
 		application.CreateModel_3("Toon_One_Blue_Lighted", -1.5, 1, 0, 3);
+		application.CreateModel_Player(-3.0, 1.6, 0, 3);
 
 		//application.SetupAnimation("TorusEnt1");
 		application.MainLoop();

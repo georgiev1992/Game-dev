@@ -796,6 +796,61 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
     }
 }
 
+void OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
+	try{
+		Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+
+		Ogre::String parts[] = {"Body","WingOne", "WingTwo", "LeftBlaster", "RightBlaster"};
+		for(int i = 0; i< 5; i++){
+			Ogre::Entity * entity =  scene_manager->createEntity(parts[i], "Cube");
+			if( i == 0){
+				entity->setMaterialName("XBody");
+			}else if(i < 3){
+				entity->setMaterialName("XWings");
+			}else{
+				entity->setMaterialName("XBlasters");
+			}
+			cube_[i] = root_scene_node->createChildSceneNode(parts[i]);
+			cube_[i]->attachObject(entity);
+		}
+
+
+		//remove existing heiarht and implement our own
+		
+		for (int i = 1; i < 5; i++){
+			root_scene_node->removeChild(cube_[i]);	
+			cube_[0]->addChild(cube_[i]);
+		}
+		for(int i = 0; i<5; i++){
+			cube_[i]->scale(.1,.1,.1);
+		}
+		
+		//Body
+		cube_[0]->scale(1,1,5);
+		cube_[0]->translate(x,y,z);
+
+		cube_[1]->setScale(6,.1,.3);
+		cube_[2]->setScale(6,.1,.3);
+		cube_[1]->rotate(Ogre::Vector3(0,0,1), Ogre::Degree(25));
+		cube_[2]->rotate(Ogre::Vector3(0,0,1), Ogre::Degree(-25));
+		cube_[1]->translate(0,0,-.345);
+		cube_[2]->translate(0,0,-.345);
+
+		cube_[3]->translate(0.45,-0.45,0.55);
+		cube_[4]->translate(-0.45,-0.45,0.55);
+		
+	}
+
+	catch(Ogre::Exception &e){
+        throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
+    }
+    catch(std::exception &e){
+        throw(OgreAppException(std::string("std::Exception: ") + std::string(e.what())));
+    }
+}
+
 void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y, float z, int nm){
 	Ogre::Vector3 invScale;
 	int numCubes = 10;
