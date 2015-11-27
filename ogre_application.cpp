@@ -27,10 +27,11 @@ float viewport_top_g = (1.0f - viewport_height_g) * 0.5f;
 unsigned short viewport_z_order_g = 100;
 float camera_near_clip_distance_g = 0.01;
 float camera_far_clip_distance_g = 100.0;
-Ogre::Vector3 camera_position_g(0,0,2);
+Ogre::Vector3 camera_position_g(0,0,-8);
 Ogre::Vector3 camera_look_at_g(0.0, 0.0, 0.0);
 Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
+int viewMode = 0;
 
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
@@ -190,8 +191,8 @@ void OgreApplication::InitViewport(void){
         camera_->setNearClipDistance(camera_near_clip_distance_g);
         camera_->setFarClipDistance(camera_far_clip_distance_g); 
 
-		camera_->setPosition(Ogre::Vector3(0.0, 0.0, -10.0));
-		camera_->lookAt(Ogre::Vector3(0.0, 0.0, 0.0));
+		camera_->setPosition(camera_position_g);
+		camera_->lookAt(camera_look_at_g);
 		camera_->setFixedYawAxis(false);
     }
     catch (Ogre::Exception &e){
@@ -696,16 +697,12 @@ void OgreApplication::CreateEntity(Ogre::String entity_name, Ogre::String object
     }
 }
 
-void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y, float z, int nm){
+Ogre::SceneNode* OgreApplication::CreateModel_1(float x, float y, float z, int nm){
 
 	try {
-		// Create one instance of the torus (one entity) 
-		// The same object can have multiple instances or entities 
-
 		// Retrieve scene manager and root scene node 
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
-
 
 		Ogre::Vector3 invScale;
 		// Create entity 
@@ -718,7 +715,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 
 			//Change material
 			if(i==0)
-				entity->setMaterialName(material_name); // material for the main block
+				entity->setMaterialName("Toon_One_Blue_Lighted"); // material for the main block
 			else if(i == 1 || i == 2)
 				entity->setMaterialName("Default_Blue_Light"); // material for the 2 side blocks
 			else
@@ -732,8 +729,8 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 
 		Ogre::String e_n = "Torus_1" + std::to_string(nm);
 		Ogre::Entity* entity = scene_manager->createEntity(e_n, "TorusMesh");
+		
 		// Apply a material to the entity to give it color 
-
 		entity->setMaterialName("Default_Blue_Light"); // material for the torus
 
 		// The scene node keeps track of the entity's position 
@@ -741,7 +738,6 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 		torus1->attachObject(entity);
 
 		//Removing hierarchical connecting between nodes
-	
 		root_scene_node->removeChild(cube_[1]);
 		root_scene_node->removeChild(cube_[2]);
 		root_scene_node->removeChild(cube_[3]);
@@ -759,7 +755,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 		cube_[0]->translate(x,y,z);
 		invScale = 1 / cube_[0]->getScale();
 
-			for (int i = 1; i < 3; ++i)
+		for (int i = 1; i < 3; ++i)
 			cube_[i]->scale(invScale);
 		
 		// side blocks
@@ -780,13 +776,8 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 		torus1->scale(0.5, 2.5, 2.5);
 		torus1->rotate(Ogre::Vector3(0,1,0), Ogre::Degree(90));
 		torus1->translate(0,0,0);
-
-        // Position and rotate the entity with the scene node 
-		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
-		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
-        //scene_node->translate(0.0, 0.0, 0.0);
-		//scene_node->scale(0.5, 0.5, 0.5);
-
+		
+		return cube_[0];
 	}
     catch (Ogre::Exception &e){
         throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
@@ -796,15 +787,17 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
     }
 }
 
-void OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
+Ogre::SceneNode* OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
 	try{
 		Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
+		Ogre::String entity_name, prefix("Player" + std::to_string(nm));
 
 		Ogre::String parts[] = {"Body","WingOne", "WingTwo", "LeftBlaster", "RightBlaster"};
 		for(int i = 0; i< 5; i++){
-			Ogre::Entity * entity =  scene_manager->createEntity(parts[i], "Cube");
+			entity_name = prefix + parts[i];
+			Ogre::Entity * entity =  scene_manager->createEntity(entity_name, "Cube");
 			if( i == 0){
 				entity->setMaterialName("XBody");
 			}else if(i < 3){
@@ -812,17 +805,16 @@ void OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
 			}else{
 				entity->setMaterialName("XBlasters");
 			}
-			cube_[i] = root_scene_node->createChildSceneNode(parts[i]);
+			cube_[i] = root_scene_node->createChildSceneNode(entity_name);
 			cube_[i]->attachObject(entity);
 		}
 
-
-		//remove existing heiarht and implement our own
-		
+		//Remove existing hierarchy and implement our own
 		for (int i = 1; i < 5; i++){
 			root_scene_node->removeChild(cube_[i]);	
 			cube_[0]->addChild(cube_[i]);
 		}
+
 		for(int i = 0; i<5; i++){
 			cube_[i]->scale(.1,.1,.1);
 		}
@@ -841,6 +833,7 @@ void OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
 		cube_[3]->translate(0.45,-0.45,0.55);
 		cube_[4]->translate(-0.45,-0.45,0.55);
 		
+		return cube_[0];
 	}
 
 	catch(Ogre::Exception &e){
@@ -851,20 +844,16 @@ void OgreApplication::CreateModel_Player(float x, float y, float z, int nm){
     }
 }
 
-void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y, float z, int nm){
+Ogre::SceneNode* OgreApplication::CreateModel_2(float x, float y, float z, int nm){
 	Ogre::Vector3 invScale;
 	int numCubes = 10;
 
 	try {
-		// Create one instance of the torus (one entity) 
-		// The same object can have multiple instances or entities 
-
 		// Retrieve scene manager and root scene node 
         Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
         Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
 		// Create entity
-
 		Ogre::String entity_name, prefix("Cube" + std::to_string(nm));
 
         for (int i = 0; i < numCubes; i++){
@@ -876,7 +865,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 			if(i < 3)
 				entity->setMaterialName("Default_Blue_Light"); // material for the main block
 			else if(i < 6)
-				entity->setMaterialName(material_name); // material for the 2 side blocks
+				entity->setMaterialName("Toon_One_Blue_Lighted"); // material for the 2 side blocks
 			else
 				entity->setMaterialName("Toon_Four"); // materal for the 2 blocks inside the torus
 
@@ -886,7 +875,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 			cube_[i]->attachObject(entity);
 		}
 
-		//Removing hierarchical connecting between nodes excluding cube 0
+		//Removing hierarchical connection between nodes excluding cube 0
 		for (int i = 1; i < numCubes; i++){
 			root_scene_node->removeChild(cube_[i]);		
 		}
@@ -896,7 +885,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 		cube_[0]->scale(0.6, 1.2, 2.0);
 		invScale = 1 / cube_[0]->getScale();
 
-		cube_[0]->translate(x, 0+y, 0+z);
+		cube_[0]->translate(x,y,z);
 
 		cube_[0]->addChild(cube_[1]);
 		cube_[0]->addChild(cube_[2]);
@@ -950,15 +939,10 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
 		cube_[9]->scale(0.15, 0.3, 0.3);
 		cube_[9]->translate(0.3, 0.0, -0.55);
 
+		//Final scale of the ship
 		cube_[0]->scale(0.2, 0.2, 0.2);
-		
 
-        // Position and rotate the entity with the scene node 
-		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
-		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
-        //scene_node->translate(0.0, 0.0, 0.0);
-		//scene_node->scale(0.5, 0.5, 0.5);
-
+		return cube_[0];
 	}
     catch (Ogre::Exception &e){
         throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
@@ -968,7 +952,7 @@ void OgreApplication::CreateModel_2(Ogre::String material_name, float x, float y
     }
 }
 
-void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y, float z, int nm){
+Ogre::SceneNode* OgreApplication::CreateModel_3(float x, float y, float z, int nm){
 	const int numCubes = 7;
 	const int numTorus = 2;
 	Ogre::SceneNode* torus_[numTorus];
@@ -987,10 +971,8 @@ void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y
 			Ogre::Entity *entity = scene_manager->createEntity(entity_name, "Cube");
 
 			//Change material
-			if(i == 1)
-				entity->setMaterialName(material_name); // material for engine
-			else if(i < 4)
-				entity->setMaterialName(material_name); // material for the connectors
+			if(i < 4)
+				entity->setMaterialName("Toon_One_Blue_Lighted"); // material for the connectors and engine
 			else
 				entity->setMaterialName("Default_Blue_Light"); // material for the guns
 
@@ -1026,13 +1008,7 @@ void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y
 			root_scene_node->removeChild(torus_[i]);		
 		}
 
-        // Position and rotate the entity with the scene node 
-		//scene_node->rotate(Ogre::Vector3(0, 1, 0), Ogre::Degree(60));
-		//scene_node->rotate(Ogre::Vector3(1, 0, 0), Ogre::Degree(30));
-        //scene_node->translate(0.0, 0.0, 0.0);
-		//scene_node->scale(0.5, 0.5, 0.5);
-
-		cube_[0]->translate(x, 0+y, 0+z);
+		cube_[0]->translate(x,y,z);
 		
 		//Center of ship
 		cube_[0]->scale(2.0, 0.25, 0.25);
@@ -1080,11 +1056,10 @@ void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y
 		cube_[5]->scale(0.5, 0.5, 2.0);
 		cube_[5]->translate(0, -0.6, -2.5);
 
+		//Final scale of the ship
 		cube_[0]->scale(Ogre::Vector3(0.5));
 
-
-
-
+		return cube_[0];
 	}
     catch (Ogre::Exception &e){
         throw(OgreAppException(std::string("Ogre::Exception: ") + std::string(e.what())));
@@ -1094,13 +1069,43 @@ void OgreApplication::CreateModel_3(Ogre::String material_name, float x, float y
     }
 }
 
+void OgreApplication::setCameraMode(int num) {
+	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+	Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+	Ogre::Camera* camera = scene_manager->getCamera("MyCamera");
+	Ogre::Node* cameraNode = camera->getParentNode();
+	Ogre::Vector3 pos = camera->getPosition(), dir = camera->getDirection(), up = camera->getUp(), newPos;
+
+	if (num == 0) { //First setting up camera (Default to first person)
+		newPos = (pos + 2*dir);
+		Ogre::SceneNode* player = CreateModel_Player(newPos.x, newPos.y, newPos.z, 1);
+		root_scene_node->removeChild(player);
+		cameraNode->addChild(player);
+		++viewMode;
+	} 
+	else if (num == 1) { //First person mode
+		cameraNode->getChild("Player1Body")->setOrientation(camera->getOrientation());
+		cameraNode->getChild("Player1Body")->yaw(Ogre::Degree(180));
+		cameraNode->getChild("Player1Body")->setPosition(pos - dir*0.15);
+	} 
+	else if (num == 2) { //Third person mode
+		cameraNode->getChild("Player1Body")->setOrientation(camera->getOrientation());
+		cameraNode->getChild("Player1Body")->yaw(Ogre::Degree(180));
+		cameraNode->getChild("Player1Body")->setPosition(pos + dir*0.75 - up*0.15);
+	} 
+	//if num == 3, then cmera stops following
+
+	else if (num == 4) { //Bring camera back to ship
+		camera->setPosition(cameraNode->getChild("Player1Body")->getPosition());
+	}
+
+}
 
 void OgreApplication::MainLoop(void){
 
     try {
 
         /* Main loop to keep the application going */
-
         ogre_root_->clearEventTimes();
 
         while(!ogre_window_->isClosed()){
@@ -1179,6 +1184,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//Ogre::SceneNode *Torus = scene_manager->getSceneNode("TorusEnt1");
 	/* For the camera */
 	Ogre::Camera* camera = scene_manager->getCamera("MyCamera");
+	Ogre::SceneNode* cameraNode = camera->getParentSceneNode();
 	Ogre::Quaternion qOld = camera->getDerivedOrientation();
 	Ogre::Vector3 pos = camera->getPosition(), forw, right, up;
 	forw = qOld * Ogre::Vector3(0,0,-1);
@@ -1319,7 +1325,18 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		last_dir_ = Direction::Down;
 		ship_float = -up;
 	}
- 
+
+	//Change the view mode
+	if (keyboard_->isKeyDown(OIS::KC_F1))
+		viewMode = 1;
+	if (keyboard_->isKeyDown(OIS::KC_F2))
+		viewMode = 2;
+	if (keyboard_->isKeyDown(OIS::KC_F3))
+		viewMode = 3;
+	if (keyboard_->isKeyDown(OIS::KC_F4))
+		viewMode = 4;
+
+	setCameraMode(viewMode);
 		
     return true;
 }
