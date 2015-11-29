@@ -730,6 +730,7 @@ void OgreApplication::CreateModel_1(Ogre::String material_name, float x, float y
 			cube_[i]->attachObject(entity);
 		}
 
+		//torus entity name
 		Ogre::String e_n = "Torus_1" + std::to_string(nm);
 		Ogre::Entity* entity = scene_manager->createEntity(e_n, "TorusMesh");
 		// Apply a material to the entity to give it color 
