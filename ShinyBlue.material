@@ -23,8 +23,8 @@ fragment_program shiny_blue_shader/fs glsl
 	{
 		 param_named outline_colour float4 0.0 0.0 0.0 1.0
 		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
-		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
-		 param_named specular_colour float4 0.8 0.5 0.9 1.0
+		 param_named diffuse_colour float4 0.1 0.5 0.5 1.0
+		 param_named specular_colour float4 0.1 0.1 0.9 1.0
 		 param_named phong_exponent float 128.0
 		 param_named diffuse_map int 0
 	}
@@ -65,8 +65,8 @@ fragment_program shiny_toon_shader/fs glsl
 	{
 		 param_named outline_colour float4 0.0 0.0 0.0 1.0
 		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
-		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
-		 param_named specular_colour float4 0.8 0.5 0.9 1.0
+		 param_named diffuse_colour float4 0.1 0.1 0.1 1.0
+		 param_named specular_colour float4 0.1 0.1 0.1 1.0
 		 param_named phong_exponent float 128.0
 		 param_named diffuse_map int 0
 	}
@@ -106,8 +106,8 @@ fragment_program shiny_toon_shader_two/fs glsl
 	{
 		 param_named outline_colour float4 0.0 0.0 0.0 1.0
 		 param_named ambient_colour float4 0.1 0.1 0.1 1.0
-		 param_named diffuse_colour float4 0.5 0.5 0.5 1.0
-		 param_named specular_colour float4 0.8 0.5 0.9 1.0
+		 param_named diffuse_colour float4 0.1 0.1 0.1 1.0
+		 param_named specular_colour float4 0.1 0.1 0.1 1.0
 		 param_named phong_exponent float 128.0
 		 param_named diffuse_map int 0
 	}
@@ -128,7 +128,7 @@ material Toon_Two_Blue_Lighted
             }
 
 			texture_unit {
-				textures/texture T3.png 2d
+				texture textures/T3.png 2d
 			}
         } 
     }
@@ -155,7 +155,7 @@ material Toon_Three
             }
 
 			texture_unit {
-				textures/texture T4.jpg 2d
+				texture textures/T4.jpg 2d
 			}
         } 
     }
@@ -187,6 +187,77 @@ material Toon_Four
     }
 }
 
+
+/*************************XWING SHADERS********************/
+//shaded with 3 thresholds of colors 2 light sources and thicker outline
+
+
+material XWings
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture textures/XWings.png 2d
+			}
+        } 
+    }
+}
+
+material XBody
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture textures/XBody.png 2d
+			}
+        } 
+    }
+}
+
+material XBlasters
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture textures/XBlasters.png 2d
+			}
+        } 
+    }
+}
+
+
+
+
 /*************************Skybox********************/
 
 material SkyBox
@@ -201,7 +272,7 @@ material SkyBox
 
 			texture_unit
 			{
-				cubic_texture textures/1.png textures/2.png textures/3.png textures/4.png textures/5.png textures/6.png separateUV
+				cubic_texture textures/1.png textures/3.png textures/2.png textures/4.png textures/5.png textures/6.png separateUV
 				tex_address_mode clamp
 			}
 		}

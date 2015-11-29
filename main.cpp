@@ -14,16 +14,14 @@ int main(void){
 		application.Init();
 		application.CreateTorusGeometry("TorusMesh");
 		application.CreateCube();
-		//application.CreateEntity("TorusEnt1" ,"TorusMesh", "Default_Blue_Light");
 
 		// (material, x ,y ,z , number for mesh names)
-		application.CreateModel_1("Toon_One_Blue_Lighted");
+		application.CreateModel_1(-2, 0, 0, 1);
+		application.CreateModel_2(-1, 0, 0, 2);
+		application.CreateModel_3(-1.5, 1, 0, 3);
+		application.CreateModel_Player(-3.0, 1.6, 0, 4);
+		application.setCameraMode(0);
 
-		application.CreateModel_1("Toon_One_Blue_Lighted",2,0,0  , 1);
-		application.CreateModel_2("Toon_One_Blue_Lighted",-1,0,0 , 2);
-		application.CreateModel_2("Toon_One_Blue_Lighted",-2,0,0 , 3);
-
-		//application.SetupAnimation("TorusEnt1");
 		application.MainLoop();
 	}
 	catch (std::exception &e){

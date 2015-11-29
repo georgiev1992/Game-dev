@@ -113,8 +113,6 @@ void main()
 	// Assign light to the fragment
 
 	gl_FragColor = (ambient_colour + Id*diffuse_colour+ Id2*diffuse_colour)*pixel + Is*specular_colour + Is2*specular_colour;
-	if(max(dot(N,V), 0.0) < 0.3){
-		gl_FragColor = outline_colour;
-	}
+
 
 }
