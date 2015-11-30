@@ -37,6 +37,7 @@ int viewMode = 0;
 float ai1_x =0, ai1_y =0, ai1_z =0;
 float ai2_x =0, ai2_y =0, ai2_z =0;
 float ai3_x =0, ai3_y =0, ai3_z =0;
+float elapsed_time_AI=0;
 
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
@@ -1263,8 +1264,25 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	
 
 	//AI for model1
+	elapsed_time_AI += fe.timeSinceLastFrame;
+	int random, max_value = 10, min_value = 1;
+
+	if(elapsed_time_AI > 3){
+	random = rand() % max_value + min_value;
+	ai1_x = random;
+	
+	random = rand() % max_value + min_value;
+	ai1_y = random;
+	random = rand() % max_value + min_value;
+	ai1_z = random;
+
+	elapsed_time_AI =0;
+	}
+
+	
+
 	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
-	AI_1->translate(ai1_x,ai1_y,ai1_z);
+	AI_1->translate(ai1_x/1000,ai1_y/1000,ai1_z/1000);
 
 	//AI for model2
 	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
