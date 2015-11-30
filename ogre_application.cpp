@@ -33,6 +33,11 @@ Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 int viewMode = 0;
 
+//AI floats
+float ai1_x =0, ai1_y =0, ai1_z =0;
+float ai2_x =0, ai2_y =0, ai2_z =0;
+float ai3_x =0, ai3_y =0, ai3_z =0;
+
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
 
@@ -777,6 +782,10 @@ Ogre::SceneNode* OgreApplication::CreateModel_1(float x, float y, float z, int n
 		torus1->scale(0.5, 2.5, 2.5);
 		torus1->rotate(Ogre::Vector3(0,1,0), Ogre::Degree(90));
 		torus1->translate(0,0,0);
+
+		
+
+		cube_[0]->translate(0,0,0);
 		
 		return cube_[0];
 	}
@@ -833,6 +842,8 @@ Ogre::SceneNode* OgreApplication::CreateModel_Player(float x, float y, float z, 
 
 		cube_[3]->translate(0.45,-0.45,0.55);
 		cube_[4]->translate(-0.45,-0.45,0.55);
+
+
 		
 		return cube_[0];
 	}
@@ -1247,6 +1258,22 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
  
 	// Update time for compositor
 	elapsed_time_ += fe.timeSinceLastFrame;
+	//printf("%f\n",elapsed_time_);
+
+	
+
+	//AI for model1
+	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
+	AI_1->translate(ai1_x,ai1_y,ai1_z);
+
+	//AI for model2
+	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
+	AI_2->translate(ai2_x,ai2_y,ai2_z);
+
+	//AI for model3
+	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
+	AI_3->translate(ai3_x,ai3_y,ai3_z);
+
 
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */
