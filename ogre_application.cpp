@@ -38,6 +38,8 @@ float ai1_x =0, ai1_y =0, ai1_z =0;
 float ai2_x =0, ai2_y =0, ai2_z =0;
 float ai3_x =0, ai3_y =0, ai3_z =0;
 float elapsed_time_AI=0;
+float elapsed_time2_AI=0;
+float elapsed_time3_AI=0;
 
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
@@ -1289,18 +1291,68 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	elapsed_time_AI =0;
 	}
 
-	
-
 	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
 	AI_1->translate(ai1_x/1000,ai1_y/1000,ai1_z/1000);
 
 	//AI for model2
 	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
-	AI_2->translate(ai2_x,ai2_y,ai2_z);
+	elapsed_time2_AI += fe.timeSinceLastFrame;
+	int max_value2 = 10, min_value2 = 1;
+
+	if(elapsed_time2_AI > 3){
+	random = rand() % max_value2 + min_value2;
+	if(random % 2 )
+		ai2_x = random;
+	else
+		ai2_x = -random;
+	
+	random = rand() % max_value2 + min_value2;
+	if(random % 2 )
+		ai2_y = random;
+	else
+		ai2_y = -random;
+
+	random = rand() % max_value2 + min_value2;
+	if(random % 2 )
+		ai2_z = random;
+	else
+		ai2_z = -random;
+
+	elapsed_time2_AI =0;
+	}
+
+	AI_2->translate(ai2_x/1000,ai2_y/1000,ai2_z/1000);
 
 	//AI for model3
 	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
-	AI_3->translate(ai3_x,ai3_y,ai3_z);
+	elapsed_time3_AI += fe.timeSinceLastFrame;
+	int  max_value3 = 10, min_value3 = 1;
+
+	if(elapsed_time3_AI > 3){
+	random = rand() % max_value3 + min_value3;
+	if(random % 2 )
+		ai3_x = random;
+	else
+		ai3_x = -random;
+	
+	random = rand() % max_value3 + min_value3;
+	if(random % 2 )
+		ai3_y = random;
+	else
+		ai3_y = -random;
+
+	random = rand() % max_value3 + min_value3;
+	if(random % 2 )
+		ai3_z = random;
+	else
+		ai3_z = -random;
+
+	elapsed_time3_AI =0;
+	}
+
+	AI_3->translate(ai3_x/1000,ai3_y/1000,ai3_z/1000);
+
+	//////////////////////////////////////////////////////////////////
 
 
 	/* Move ship according to keyboard input and last move */
