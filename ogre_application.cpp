@@ -1269,12 +1269,22 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 
 	if(elapsed_time_AI > 3){
 	random = rand() % max_value + min_value;
-	ai1_x = random;
+	if(random % 2 )
+		ai1_x = random;
+	else
+		ai1_x = -random;
 	
 	random = rand() % max_value + min_value;
-	ai1_y = random;
+	if(random % 2 )
+		ai1_y = random;
+	else
+		ai1_y = -random;
+
 	random = rand() % max_value + min_value;
-	ai1_z = random;
+	if(random % 2 )
+		ai1_z = random;
+	else
+		ai1_z = -random;
 
 	elapsed_time_AI =0;
 	}
