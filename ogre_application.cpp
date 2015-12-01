@@ -1363,7 +1363,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 
 	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
 
+	if(distance1 < 10)
+		printf("collide1");
 
+	if(distance2 < 10)
+		printf("collide2");
+
+	if(distance3 < 10)
+		printf("collide3");
 
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */
