@@ -1299,6 +1299,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	elapsed_time2_AI += fe.timeSinceLastFrame;
 	int max_value2 = 10, min_value2 = 1;
 
+
 	if(elapsed_time2_AI > 3){
 	random = rand() % max_value2 + min_value2;
 	if(random % 2 )
@@ -1322,6 +1323,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	}
 
 	AI_2->translate(ai2_x/1000,ai2_y/1000,ai2_z/1000);
+	
 
 	//AI for model3
 	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
@@ -1353,6 +1355,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	AI_3->translate(ai3_x/1000,ai3_y/1000,ai3_z/1000);
 
 	//////////////////////////////////////////////////////////////////
+
+	// Collision Detection
+	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player4Body");
+	Ogre::Real distance1= player_c->getPosition().distance(AI_1->getPosition());
+	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
+
+	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
+
 
 
 	/* Move ship according to keyboard input and last move */
