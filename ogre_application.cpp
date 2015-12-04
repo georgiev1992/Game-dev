@@ -761,6 +761,7 @@ Ogre::SceneNode* OgreApplication::CreateModel_1(float x, float y, float z, int n
 		torus1->addChild(cube_[3]);
 		torus1->addChild(cube_[4]);
 
+
 		// main block
 		cube_[0]->scale(0.5, 0.1, 0.1);
 		cube_[0]->translate(x,y,z);
