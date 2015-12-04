@@ -21,6 +21,7 @@ int main(void){
 		application.CreateModel_3(-1.5, 1, 0, 3);
 		application.CreateModel_Player(-3.0, 1.6, 0, 4);
 		application.setCameraMode(0);
+		application.small1 = Smallship(application.CreateModel_1(0, 0, 0, 5));
 
 		application.MainLoop();
 	}

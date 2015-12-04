@@ -17,6 +17,8 @@
 #include "OGRE/OgreCompositorInstance.h"
 #include "OIS/OIS.h"
 
+#include "Smallship.h"
+
 namespace ogre_application {
 
 
@@ -76,6 +78,9 @@ namespace ogre_application {
 
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
+
+			// Testing classes
+			Smallship small1;
 
         private:
 			// Create root that allows us to access Ogre commands

@@ -48,6 +48,8 @@ const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
 Ogre::Vector3 ship_float(0.0, 0.0, 0.0);
 
 
+
+
 OgreApplication::OgreApplication(void){
 
     /* Don't do work in the constructor, leave it for the Init() function */
@@ -1210,6 +1212,8 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		return false;
 	}
 
+	small1.run();
+
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
 
@@ -1357,19 +1361,19 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//////////////////////////////////////////////////////////////////
 
 	// Collision Detection
-	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player4Body");
+	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
 	Ogre::Real distance1= player_c->getPosition().distance(AI_1->getPosition());
 	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
 
 	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
 
-	if(distance1 < 10)
+	if(distance1 < 1)
 		printf("collide1");
 
-	if(distance2 < 10)
+	if(distance2 < 1)
 		printf("collide2");
 
-	if(distance3 < 10)
+	if(distance3 < 1)
 		printf("collide3");
 
 	/* Move ship according to keyboard input and last move */
