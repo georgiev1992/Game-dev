@@ -1212,7 +1212,10 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		return false;
 	}
 
+	// ClassTest
 	small1.run();
+	med1.run();
+	big1.run();
 
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */

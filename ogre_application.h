@@ -18,6 +18,9 @@
 #include "OIS/OIS.h"
 
 #include "Smallship.h"
+#include "Medship.h"
+#include "Bigship.h"
+
 
 namespace ogre_application {
 
@@ -81,6 +84,8 @@ namespace ogre_application {
 
 			// Testing classes
 			Smallship small1;
+			Medship med1;
+			Bigship big1;
 
         private:
 			// Create root that allows us to access Ogre commands

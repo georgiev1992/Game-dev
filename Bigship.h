@@ -1,13 +1,13 @@
-#ifndef SMALLSHIP_H
-#define SMALLSHIP_H
+#ifndef BIGSHIP_H
+#define BIGSHIP_H
 
 #include "Spaceship.h"
 
-class Smallship : public Spaceship 
+class Bigship : public Spaceship 
 {
 public:
-	Smallship(void) {}
-	Smallship(Ogre::SceneNode* newModel) {
+	Bigship(void) {}
+	Bigship(Ogre::SceneNode* newModel) {
 		// TODO
 		// Change these values to be unique to each ship type
 		model = newModel;
@@ -15,7 +15,7 @@ public:
 		speed = 0.03f;
 		fireSpeed = 1.0f;
 	}
-	~Smallship(void) {}
+	~Bigship(void) {}
 
 };
 

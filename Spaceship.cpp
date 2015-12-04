@@ -10,6 +10,17 @@ Spaceship::Spaceship(void)
 	calcNewPath();
 }
 
+Spaceship::Spaceship(Ogre::SceneNode* newModel)
+{
+	model = newModel;
+	health = 20;
+	speed = 0.1f;
+	fireSpeed = 1.0f;
+	lastHit = 0.0f;
+	calcNewPath();
+	setupDirection();
+}
+
 Spaceship::~Spaceship(void)
 {
 	// TODO
@@ -55,7 +66,6 @@ void Spaceship::nextPathPos() {
 	dir1.y = 0;
 	dir1.normalise();
 	
-
 	++pathCount;
 	if (pathCount == PATH_SIZE)
 		calcNewPath();
@@ -81,6 +91,13 @@ void Spaceship::calcNewPath() {
 		fPath[i] = Ogre::Vector3(x, y, z);
 	}
 	pathCount = 0;
+}
+
+void Spaceship::setupDirection() {
+		Ogre::Vector3 dir = fPath[0];
+		dir.y = 0;
+		dir.normalise();
+		model->yaw(-Ogre::Vector3(0,0,1).angleBetween(dir));
 }
 
 void Spaceship::takeDamage() {

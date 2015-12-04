@@ -26,6 +26,7 @@ class Spaceship
 {
 public:
 	Spaceship(void);
+	Spaceship(Ogre::SceneNode* newModel);
 	~Spaceship(void);
 	void run();
 	void move();
@@ -38,6 +39,7 @@ protected:
 	void moveTo(Ogre::Vector3 newPos);
 	void nextPathPos();
 	void calcNewPath();
+	void setupDirection();
 	bool isColliding(Ogre::Vector3 pos);
 	void setPosition(Ogre::Vector3 newPos);
 

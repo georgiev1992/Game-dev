@@ -20,8 +20,13 @@ int main(void){
 		application.CreateModel_2(-1, 0, 0, 2);
 		application.CreateModel_3(-1.5, 1, 0, 3);
 		application.CreateModel_Player(-3.0, 1.6, 0, 4);
+
 		application.setCameraMode(0);
-		application.small1 = Smallship(application.CreateModel_1(0, 0, 0, 5));
+
+		application.small1 = Smallship(application.CreateModel_1(3, 0, 0, 5));
+		application.med1 = Medship(application.CreateModel_2(1, 0, 0, 6));
+		application.big1 = Bigship(application.CreateModel_3(2, 0, 0, 7));
+
 
 		application.MainLoop();
 	}
