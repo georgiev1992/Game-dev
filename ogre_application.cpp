@@ -1298,7 +1298,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
 	AI_1->translate(ai1_x/1000,ai1_y/1000,ai1_z/1000);
 	Ogre::Entity* AI_1_entity = static_cast<Ogre::Entity*>(AI_1->getAttachedObject(0));
-	AI_1_entity->setMaterialName("FireMaterial");
+	//AI_1_entity->setMaterialName("FireMaterial");
 
 	//AI for model2
 	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
