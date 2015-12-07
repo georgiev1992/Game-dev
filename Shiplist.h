@@ -10,7 +10,7 @@
 #include "Medship.h"
 #include "Bigship.h"
 
-#define MAX_SHIPS 30
+#define MAX_SHIPS 60
 
 class Shiplist
 {

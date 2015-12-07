@@ -18,7 +18,7 @@
 #include "OGRE/OgreCompositorInstance.h"
 #include "OIS/OIS.h"
 
-#define PATH_SIZE 5
+#define PATH_SIZE 10
 // TODO
 // Add shooting
 

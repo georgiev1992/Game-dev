@@ -21,7 +21,8 @@ int main(void){
 		application.CreateModel_3(-1.5, 1, 0, 3);
 		application.CreateModel_Player(-3.0, 1.6, 0, 4);
 
-		application.createShips(5, 5, 5);
+		// (small, med, big, origin of spawn point)
+		application.createShips(5,5,5);
 
 		application.setCameraMode(0);
 
