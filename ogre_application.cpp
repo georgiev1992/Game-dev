@@ -51,8 +51,7 @@ const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
 /* Spaceship variables */
 Ogre::Vector3 ship_float(0.0, 0.0, 0.0);
 Shiplist Slist;
-BOOL notSetup = true;
-
+int shipsMade = 10;
 
 
 OgreApplication::OgreApplication(void){
@@ -77,11 +76,14 @@ void OgreApplication::Init(void){
 	InitOIS();
 	LoadMaterials();
 	InitCompositor();
+	srand(time(0));
 
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
     Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
 
 	scene_manager->setSkyBox(true, "SkyBox",50, false);
+
+	Slist = Shiplist(scene_manager);
 }
 
 
@@ -1003,6 +1005,37 @@ void OgreApplication::createBullets(void){
 
 }
 
+void OgreApplication::createShips(int s, int m, int b, Ogre::Vector3 origin) {
+	int x, y, z;
+
+	for (int i = 0; i < s; ++i) {
+		x = origin.x + rand() % 20 - 10;
+		y = origin.y + rand() % 20 - 10;
+		z = origin.z + rand() % 20 - 10;
+
+		Slist.addShip(1, CreateModel_1(x, y, z, shipsMade));
+		++shipsMade;
+	}
+
+	for (int i = 0; i < m; ++i) {
+		x = origin.x + rand() % 20 - 10;
+		y = origin.y + rand() % 20 - 10;
+		z = origin.z + rand() % 20 - 10;
+
+		Slist.addShip(2, CreateModel_2(x, y, z, shipsMade));
+		++shipsMade;
+	}
+
+	for (int i = 0; i < b; ++i) {
+		x = origin.x + rand() % 20 - 10;
+		y = origin.y + rand() % 20 - 10;
+		z = origin.z + rand() % 20 - 10;
+
+		Slist.addShip(3, CreateModel_3(x, y, z, shipsMade));
+		++shipsMade;
+	}	
+}
+
 Ogre::SceneNode* OgreApplication::CreateModel_3(float x, float y, float z, int nm){
 	const int numCubes = 7;
 	const int numTorus = 2;
@@ -1251,14 +1284,6 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 
 	if (!camera){
 		return false;
-	}
-	// ClassTest
-	if (notSetup) {
-		Slist = Shiplist(scene_manager);
-		Slist.addShip(1, CreateModel_1(3, 0, 0, 5));
-		Slist.addShip(2, CreateModel_2(1, 0, 0, 6));
-		Slist.addShip(3, CreateModel_3(2, 0, 0, 7));
-		notSetup = false;
 	}
 
 	Slist.operate(pos);
