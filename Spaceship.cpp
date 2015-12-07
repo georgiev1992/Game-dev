@@ -1,7 +1,6 @@
 #include "Spaceship.h"
 
-Spaceship::Spaceship(void)
-{
+Spaceship::Spaceship(void) {
 	model = NULL;
 	health = 20;
 	speed = 0.1f;
@@ -10,8 +9,7 @@ Spaceship::Spaceship(void)
 	calcNewPath();
 }
 
-Spaceship::Spaceship(Ogre::SceneNode* newModel)
-{
+Spaceship::Spaceship(Ogre::SceneNode* newModel) {
 	model = newModel;
 	health = 20;
 	speed = 0.1f;
@@ -21,19 +19,18 @@ Spaceship::Spaceship(Ogre::SceneNode* newModel)
 	setupDirection();
 }
 
-Spaceship::~Spaceship(void)
-{
+Spaceship::~Spaceship(void) {
 	// TODO
 	// Get list class to destroy the model
 }
 
-void Spaceship::run() {
+void Spaceship::run(Ogre::Vector3 playerPos) {
 	// TODO
 	// Call all functions to make the ship operate (e.g. moving and shooting)
-	move();
+	move(playerPos);
 }
 
-void Spaceship::move() {
+void Spaceship::move(Ogre::Vector3 playerPos) {
 	// Move ship to its next position
 	// TODO
 	// Check for collision with player and other ships
@@ -48,7 +45,7 @@ void Spaceship::move() {
 		moveTo(fPath[pathCount]);
 	} else {
 		calcNewPath();
-		move();
+		move(playerPos);
 	}
 }
 

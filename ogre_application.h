@@ -17,9 +17,7 @@
 #include "OGRE/OgreCompositorInstance.h"
 #include "OIS/OIS.h"
 
-#include "Smallship.h"
-#include "Medship.h"
-#include "Bigship.h"
+#include "Shiplist.h"
 
 
 namespace ogre_application {
@@ -60,8 +58,10 @@ namespace ogre_application {
         public Ogre::WindowEventListener {
 
 		friend class MaterialListener;
+		friend class Shiplist;
 
         public:
+			
             OgreApplication(void);
             void Init(void); // Call Init() before running the main loop
 			// Create geometry of a torus and add it to the available resources
@@ -78,14 +78,14 @@ namespace ogre_application {
 			Ogre::SceneNode* CreateModel_Player(float x=0, float y=0, float z=0, int nm=0);
 
 			void setCameraMode(int num);
+			
 
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
 
 			// Testing classes
-			Smallship small1;
-			Medship med1;
-			Bigship big1;
+			//int a;
+			
 
         private:
 			// Create root that allows us to access Ogre commands

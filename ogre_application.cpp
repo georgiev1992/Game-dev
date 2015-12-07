@@ -41,12 +41,14 @@ float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
 
+
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
 
 /* Spaceship variables */
 Ogre::Vector3 ship_float(0.0, 0.0, 0.0);
-
+Shiplist Slist;
+BOOL notSetup = true;
 
 
 
@@ -1214,9 +1216,15 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	}
 
 	// ClassTest
-	small1.run();
-	med1.run();
-	big1.run();
+	if (notSetup) {
+		Slist = Shiplist(scene_manager);
+		Slist.addShip(1, CreateModel_1(3, 0, 0, 5));
+		Slist.addShip(2, CreateModel_2(1, 0, 0, 6));
+		Slist.addShip(3, CreateModel_3(2, 0, 0, 7));
+		notSetup = false;
+	}
+
+	Slist.operate(pos);
 
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
