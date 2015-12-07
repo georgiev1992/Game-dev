@@ -5,11 +5,11 @@ project(CompositorDemo)
 
 # Specify project files: header files and source files
 set(HDRS
-	./ogre_application.h ./Spaceship.h ./Smallship.h ./Medship.h ./Bigship.h ./Shiplist.h
+	./ogre_application.h ./Spaceship.h ./Smallship.h ./Medship.h ./Bigship.h ./Shiplist.h ./Bullet.h
 )
  
 set(SRCS
-	./ogre_application.cpp ./main.cpp ./Spaceship.cpp ./Shiplist.cpp ./DefaultVp.glsl ./DefaultFp.glsl  ./ToonOneMaterialFP.glsl  ./ToonTwoMaterialFP.glsl ShinyBlue.material ScreenSpace.material ScreenSpaceVp.glsl ScreenSpaceFp.glsl ScreenSpace.compositor
+	./ogre_application.cpp ./main.cpp ./Spaceship.cpp ./Shiplist.cpp ./Bullet.cpp ./DefaultVp.glsl ./DefaultFp.glsl  ./ToonOneMaterialFP.glsl  ./ToonTwoMaterialFP.glsl ShinyBlue.material ScreenSpace.material ScreenSpaceVp.glsl ScreenSpaceFp.glsl ScreenSpace.compositor
 )
 
 # The rules here are specific to Windows Systems

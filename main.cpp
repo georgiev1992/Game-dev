@@ -14,7 +14,7 @@ int main(void){
 		application.Init();
 		application.CreateTorusGeometry("TorusMesh");
 		application.CreateCube();
-
+		application.createBullets();
 		// (material, x ,y ,z , number for mesh names)
 		application.CreateModel_1(-2, 0, 0, 1);
 		application.CreateModel_2(-1, 0, 0, 2);

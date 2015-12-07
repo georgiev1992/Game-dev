@@ -19,7 +19,7 @@
 
 #include "Shiplist.h"
 
-
+#define MAX_BULLETS 4
 namespace ogre_application {
 
 
@@ -76,6 +76,7 @@ namespace ogre_application {
 			Ogre::SceneNode* CreateModel_2(float x=0, float y=0, float z=0, int nm=0);
 			Ogre::SceneNode* CreateModel_3(float x=0, float y=0, float z=0, int nm=0);
 			Ogre::SceneNode* CreateModel_Player(float x=0, float y=0, float z=0, int nm=0);
+			void createBullets(void);
 
 			void setCameraMode(int num);
 			
@@ -85,6 +86,8 @@ namespace ogre_application {
 
 			// Testing classes
 			//int a;
+			
+
 			
 
         private:

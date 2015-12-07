@@ -1,7 +1,9 @@
 #include "ogre_application.h"
 #include "bin/path_config.h"
 
+
 namespace ogre_application {
+
 
 /* Some configuration constants */
 /* They are written here as global variables, but ideally they should be loaded from a configuration file */
@@ -32,7 +34,7 @@ Ogre::Vector3 camera_look_at_g(0.0, 0.0, 0.0);
 Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 int viewMode = 0;
-
+bool shooting = false;
 //AI floats
 float ai1_x =0, ai1_y =0, ai1_z =0;
 float ai2_x =0, ai2_y =0, ai2_z =0;
@@ -41,6 +43,7 @@ float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
 
+Bullet** bullets = new Bullet*[MAX_BULLETS]();
 
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
@@ -73,7 +76,6 @@ void OgreApplication::Init(void){
 	InitFrameListener();
 	InitOIS();
 	LoadMaterials();
-
 	InitCompositor();
 
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
@@ -972,6 +974,35 @@ Ogre::SceneNode* OgreApplication::CreateModel_2(float x, float y, float z, int n
     }
 }
 
+void OgreApplication::createBullets(void){
+
+
+		Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		for(int i = 0; i < MAX_BULLETS; i++){
+			bullets[i] = new Bullet();
+			Ogre::String El = Ogre::String("leftBullet" + i);
+			Ogre::String Er = Ogre::String("rightBullet" + i);
+
+			Ogre::Entity *left = scene_manager->createEntity(El, "Cube");
+			Ogre::Entity *right = scene_manager->createEntity(Er, "Cube");
+
+			
+			left->setMaterialName("XBlasters");
+			right->setMaterialName("XBlasters");
+
+			bullets[i]->leftBullet =  root_scene_node->createChildSceneNode(El);
+			bullets[i]->leftBullet->attachObject(left);
+			bullets[i]->rightBullet =  root_scene_node->createChildSceneNode(Er);
+			bullets[i]->rightBullet->attachObject(right);
+
+
+		}
+
+
+}
+
 Ogre::SceneNode* OgreApplication::CreateModel_3(float x, float y, float z, int nm){
 	const int numCubes = 7;
 	const int numTorus = 2;
@@ -1197,6 +1228,8 @@ bool OgreApplication::frameEnded(const Ogre::FrameEvent &fe){
 
 
 
+
+
 bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
   
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
@@ -1210,11 +1243,15 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	forw = qOld * Ogre::Vector3(0,0,-1);
 	up = qOld * Ogre::Vector3(0,1,0);
 	right = forw.crossProduct(up);
+	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
+	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
+	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
+	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
+	Ogre::Real distance4;
 
 	if (!camera){
 		return false;
 	}
-
 	// ClassTest
 	if (notSetup) {
 		Slist = Shiplist(scene_manager);
@@ -1245,13 +1282,66 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
         return false;
     }
 
-	if (keyboard_->isKeyDown(OIS::KC_SPACE)){
-		space_down_ = true;
+	if (keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == false){
+		for(int i = 0; i < MAX_BULLETS; i++){
+			if(bullets[i]->InUse == 0){
+				bullets[i]->InUse = 1;
+				bullets[i]->traj = forw;
+				bullets[i]->leftBullet->setPosition(pos);
+				bullets[i]->rightBullet->setPosition(pos);
+
+
+				bullets[i]->leftBullet->setScale(0.01,0.01,0.1);
+				bullets[i]->rightBullet->setScale(0.01,0.01,0.1);
+					
+				bullets[i]->leftBullet->translate(-0.1,0,0,Ogre::Node::TS_LOCAL);
+				bullets[i]->rightBullet->translate(0.1,0,0 ,Ogre::Node::TS_LOCAL);
+
+				bullets[i]->rightBullet->setOrientation(qOld);
+				bullets[i]->leftBullet->setOrientation(qOld);
+
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_1->getPosition());
+					if(distance4 < 2){
+						printf("collide6");
+					}
+
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_1->getPosition());
+					if(distance4 < 2){
+						printf("collide6");
+					}
+
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_2->getPosition());
+					if(distance4 < 2){
+						printf("collide5");
+					}
+
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_2->getPosition());
+					if(distance4 < 2){
+						printf("collide5");
+					}
+
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_3->getPosition());
+					if(distance4 < 2){
+						printf("collide4");
+					}
+
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_3->getPosition());
+					if(distance4 < 2){
+						printf("collide4");
+					}
+
+				break;
+			}
+		}
+		shooting = true;
 	}
-	if ((!keyboard_->isKeyDown(OIS::KC_SPACE)) && space_down_){
-		animating_ = !animating_;
-		space_down_ = false;
+	if (!keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == true){
+		shooting = false;
 	}
+	for(int i = 0; i<MAX_BULLETS; i++){
+		bullets[i]->handle(fe.timeSinceLastFrame);
+	}
+
 	if (keyboard_->isKeyDown(OIS::KC_V)){
 		animation_state_->setTimePosition(0);
 	}
@@ -1279,7 +1369,6 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	elapsed_time_ += fe.timeSinceLastFrame;
 	//printf("%f\n",elapsed_time_);
 
-	
 
 	//AI for model1
 	elapsed_time_AI += fe.timeSinceLastFrame;
@@ -1307,13 +1396,13 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	elapsed_time_AI =0;
 	}
 
-	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
+	
 	AI_1->translate(ai1_x/1000,ai1_y/1000,ai1_z/1000);
 	Ogre::Entity* AI_1_entity = static_cast<Ogre::Entity*>(AI_1->getAttachedObject(0));
 	//AI_1_entity->setMaterialName("FireMaterial");
 
 	//AI for model2
-	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
+	
 	elapsed_time2_AI += fe.timeSinceLastFrame;
 	int max_value2 = 10, min_value2 = 1;
 
@@ -1344,7 +1433,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	
 
 	//AI for model3
-	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
+	
 	elapsed_time3_AI += fe.timeSinceLastFrame;
 	int  max_value3 = 10, min_value3 = 1;
 
@@ -1375,20 +1464,41 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//////////////////////////////////////////////////////////////////
 
 	// Collision Detection
-	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
+
 	Ogre::Real distance1= player_c->getPosition().distance(AI_1->getPosition());
 	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
 
 	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
+///////////////////////////////////////////////
+ // Bullet collision detection
 
-	if(distance1 < 1)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	if(distance1 < 1){
 		printf("collide1");
+		
+		camera->setPosition(pos - forw);
+		last_dir_ = Direction::Backward;
+		ship_float = -forw;
 
-	if(distance2 < 1)
+	}
+	if(distance2 < 1){
 		printf("collide2");
 
-	if(distance3 < 1)
+		camera->setPosition(pos - forw);
+		last_dir_ = Direction::Backward;
+		ship_float = -forw;
+	}
+
+	if(distance3 < 1){
 		printf("collide3");
+
+		camera->setPosition(pos - forw);
+		last_dir_ = Direction::Backward;
+		ship_float = -forw;
+	}
+
 
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */
