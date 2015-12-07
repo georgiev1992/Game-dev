@@ -78,15 +78,14 @@ namespace ogre_application {
 			Ogre::SceneNode* CreateModel_3(float x=0, float y=0, float z=0, int nm=0);
 			Ogre::SceneNode* CreateModel_Player(float x=0, float y=0, float z=0, int nm=0);
 			void createBullets(void);
-
+			// Adds ships to the ship list
+			void createShips(int s = 1, int m = 1, int b = 1, Ogre::Vector3 origin = Ogre::Vector3(0,0,0));
 			void setCameraMode(int num);
 			
 
 			void SetupAnimation(Ogre::String entity_name); // Setup animation for an object
             void MainLoop(void); // Keep application active
 
-			// Testing classes
-			//int a;
 			
 
 			
