@@ -1,7 +1,9 @@
 #include "ogre_application.h"
 #include "bin/path_config.h"
 
+
 namespace ogre_application {
+
 
 /* Some configuration constants */
 /* They are written here as global variables, but ideally they should be loaded from a configuration file */
@@ -1372,16 +1374,23 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
 
 	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
+///////////////////////////////////////////////
+//	player_c;
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	if(distance1 < 1)
+	if(distance1 < 1){
 		printf("collide1");
+		AI_1->translate(-ai1_x/500,-ai1_y/500,-ai1_z/500);
+		player_c->translate(-ai1_x/500,-ai1_y/500,-ai1_z/500);
 
-	if(distance2 < 1)
+	}
+	if(distance2 < 1){
 		printf("collide2");
+	}
 
-	if(distance3 < 1)
+	if(distance3 < 1){
 		printf("collide3");
-
+	}
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */
 	double trans_factor = 0.1; // Small continuous translation
