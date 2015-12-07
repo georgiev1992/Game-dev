@@ -30,7 +30,7 @@ public:
 	~Spaceship(void);
 	void run(Ogre::Vector3 playerPos,Ogre::Camera *camera);
 	void move(Ogre::Vector3 playerPos, Ogre::Camera *camera);
-	void takeDamage();
+	void takeDamage(int i);
 	bool isDead();
 	Ogre::Vector3 getPosition();
 	Ogre::SceneNode* getModel();

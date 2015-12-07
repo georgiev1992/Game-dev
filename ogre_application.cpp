@@ -1388,14 +1388,30 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 				Spaceship* curShip = Slist[j];
 				if(bullets[i]->leftBullet->getPosition().distance(curShip->getPosition()) < 1){
 					std::cout << "\nLeft bullet collided with ship " << j;
+					
+					bullets[i]->hit = true;
 				}
 				if(bullets[i]->rightBullet->getPosition().distance(curShip->getPosition()) < 1){
 					std::cout << "\nRight bullet collided with ship " << j;
+					
+					bullets[i]->hit = true;
+				}
+
+				if(bullets[i]->hit){
+					curShip->takeDamage(5);
+					bullets[i]->hit = false;
+					bullets[i]->setPositionAway();
+				}
+
+				if(curShip->isDead()){
+					curShip->getModel()->setVisible(false);
 				}
 			}
 				
 		}
 	}
+
+	
 
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */
@@ -1412,7 +1428,13 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		qOld = Ogre::Quaternion(rot_factor, right) * qOld;
 		qOld.normalise();
 	}
-	
+
+	if (keyboard_->isKeyDown(OIS::KC_4)){
+
+		Slist.addShip(1, CreateModel_1( rand() % 20 - 10,  rand() % 20 - 10,  rand() % 20 - 10, shipsMade));
+		++shipsMade;
+	}
+
 	if (keyboard_->isKeyDown(OIS::KC_DOWN)){
 		qOld = Ogre::Quaternion(-rot_factor, right) * qOld;
 		qOld.normalise();

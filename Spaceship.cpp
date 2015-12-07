@@ -103,10 +103,11 @@ void Spaceship::setupDirection() {
 		model->yaw(-Ogre::Vector3(0,0,1).angleBetween(dir));
 }
 
-void Spaceship::takeDamage() {
+void Spaceship::takeDamage(int i) {
 	// TODO
 	// Take damage equal to what the ship is being hit by
 	// i.e. colliding and weapon damage
+	health-= i;
 	time_t seconds = time(0);
 	if (seconds - lastHit > 1) {
 		lastHit = seconds;

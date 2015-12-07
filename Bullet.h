@@ -28,9 +28,12 @@ public:
 	Bullet();
 	~Bullet();
 	void handle(float);
+	void setPositionAway();
+	//void 
 public:
 	int InUse;
 	float alive;
+	bool hit;
 	Ogre::SceneNode* leftBullet;
 	Ogre::SceneNode* rightBullet;
 	Ogre::Vector3 traj;

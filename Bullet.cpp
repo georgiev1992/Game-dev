@@ -3,9 +3,16 @@
 Bullet::Bullet(){
 	InUse = 0;
 	alive = 0;
+	hit = false;
 }
 Bullet::~Bullet(){
 	//todo: destruct when done with
+}
+
+void Bullet::setPositionAway(){
+		leftBullet->setPosition(          leftBullet->getPosition() + (3000)*traj                  );
+		rightBullet->setPosition(         rightBullet->getPosition() + (3000)*traj                  );
+		InUse =0;
 }
 
 void Bullet::handle(float time){
