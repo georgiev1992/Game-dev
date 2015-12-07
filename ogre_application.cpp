@@ -42,6 +42,7 @@ float ai3_x =0, ai3_y =0, ai3_z =0;
 float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
+float type_1= 0.01,type_2= 0.01,type_3= 0.1;
 
 Bullet** bullets = new Bullet*[MAX_BULLETS]();
 
@@ -1306,6 +1307,24 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
         ogre_window_->destroy();
         return false;
     }
+	// bullet types
+	if (keyboard_->isKeyDown(OIS::KC_1)){
+			type_1= 0.01;
+			type_2= 0.01;
+			type_3= 0.1;
+	}
+
+		if (keyboard_->isKeyDown(OIS::KC_2)){
+			type_1= 0.01;
+			type_2= 1;
+			type_3= 0.1;
+	}
+
+			if (keyboard_->isKeyDown(OIS::KC_3)){
+			type_1= 0.51;
+			type_2= 0.51;
+			type_3= 0.1;
+	}
 
 	if (keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == false){
 		for(int i = 0; i < MAX_BULLETS; i++){
@@ -1316,8 +1335,8 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 				bullets[i]->rightBullet->setPosition(pos);
 
 
-				bullets[i]->leftBullet->setScale(0.01,0.01,0.1);
-				bullets[i]->rightBullet->setScale(0.01,0.01,0.1);
+				bullets[i]->leftBullet->setScale(type_1, type_2, type_3);
+				bullets[i]->rightBullet->setScale(type_1, type_2, type_3);
 					
 				bullets[i]->leftBullet->translate(-0.1,0,0,Ogre::Node::TS_LOCAL);
 				bullets[i]->rightBullet->translate(0.1,0,0 ,Ogre::Node::TS_LOCAL);
