@@ -10,7 +10,7 @@ Shiplist::Shiplist(Ogre::SceneManager* newManager) {
 }
 
 Shiplist::~Shiplist(void) {
-	destroyShips();
+	//destroyShips();
 	manager = NULL;
 }
 

@@ -18,6 +18,7 @@
 #include "OIS/OIS.h"
 
 #include "Shiplist.h"
+#include "Bullet.h"
 
 #define MAX_BULLETS 4
 namespace ogre_application {
