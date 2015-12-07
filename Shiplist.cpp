@@ -14,6 +14,13 @@ Shiplist::~Shiplist(void) {
 	manager = NULL;
 }
 
+Spaceship* Shiplist::operator[](int i) {
+	if( i > numShips ) {
+		return ships[0];
+    }
+    return ships[i];
+}
+
 
 void Shiplist::operate(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
 	// Makes all of the ships run

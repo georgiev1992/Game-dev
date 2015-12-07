@@ -1278,10 +1278,6 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	up = qOld * Ogre::Vector3(0,1,0);
 	right = forw.crossProduct(up);
 	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
-	Ogre::SceneNode *AI_1 = scene_manager->getSceneNode("Cube10");
-	Ogre::SceneNode *AI_2 = scene_manager->getSceneNode("Cube20");
-	Ogre::SceneNode *AI_3 = scene_manager->getSceneNode("Cube30");
-	Ogre::Real distance4;
 
 	if (!camera){
 		return false;
@@ -1385,166 +1381,21 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//printf("%f\n",elapsed_time_);
 
 
-	//AI for model1
-	elapsed_time_AI += fe.timeSinceLastFrame;
-	int random, max_value = 10, min_value = 1;
-
-	if(elapsed_time_AI > 3){
-	random = rand() % max_value + min_value;
-	if(random % 2 )
-		ai1_x = random;
-	else
-		ai1_x = -random;
-	
-	random = rand() % max_value + min_value;
-	if(random % 2 )
-		ai1_y = random;
-	else
-		ai1_y = -random;
-
-	random = rand() % max_value + min_value;
-	if(random % 2 )
-		ai1_z = random;
-	else
-		ai1_z = -random;
-
-	elapsed_time_AI =0;
-	}
-
-	
-	AI_1->translate(ai1_x/1000,ai1_y/1000,ai1_z/1000);
-	Ogre::Entity* AI_1_entity = static_cast<Ogre::Entity*>(AI_1->getAttachedObject(0));
-	//AI_1_entity->setMaterialName("FireMaterial");
-
-	//AI for model2
-	
-	elapsed_time2_AI += fe.timeSinceLastFrame;
-	int max_value2 = 10, min_value2 = 1;
-
-
-	if(elapsed_time2_AI > 3){
-	random = rand() % max_value2 + min_value2;
-	if(random % 2 )
-		ai2_x = random;
-	else
-		ai2_x = -random;
-	
-	random = rand() % max_value2 + min_value2;
-	if(random % 2 )
-		ai2_y = random;
-	else
-		ai2_y = -random;
-
-	random = rand() % max_value2 + min_value2;
-	if(random % 2 )
-		ai2_z = random;
-	else
-		ai2_z = -random;
-
-	elapsed_time2_AI =0;
-	}
-
-	AI_2->translate(ai2_x/1000,ai2_y/1000,ai2_z/1000);
-	
-
-	//AI for model3
-	
-	elapsed_time3_AI += fe.timeSinceLastFrame;
-	int  max_value3 = 10, min_value3 = 1;
-
-	if(elapsed_time3_AI > 3){
-	random = rand() % max_value3 + min_value3;
-	if(random % 2 )
-		ai3_x = random;
-	else
-		ai3_x = -random;
-	
-	random = rand() % max_value3 + min_value3;
-	if(random % 2 )
-		ai3_y = random;
-	else
-		ai3_y = -random;
-
-	random = rand() % max_value3 + min_value3;
-	if(random % 2 )
-		ai3_z = random;
-	else
-		ai3_z = -random;
-
-	elapsed_time3_AI =0;
-	}
-
-	AI_3->translate(ai3_x/1000,ai3_y/1000,ai3_z/1000);
-
-	//////////////////////////////////////////////////////////////////
-
-	// Collision Detection
-
-	Ogre::Real distance1= player_c->getPosition().distance(AI_1->getPosition());
-	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
-
-	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
-///////////////////////////////////////////////
  // Bullet collision detection
 	for(int i = 0; i < MAX_BULLETS; i++){
-			if(bullets[i]->InUse == 1){
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_1->getPosition());
-					if(distance4 < 1){
-						printf("collide6");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_1->getPosition());
-					if(distance4 < 1){
-						printf("collide6");
-					}
-
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_2->getPosition());
-					if(distance4 < 1){
-						printf("collide5");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_2->getPosition());
-					if(distance4 < 1){
-						printf("collide5");
-					}
-
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_3->getPosition());
-					if(distance4 < 1){
-						printf("collide4");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_3->getPosition());
-					if(distance4 < 1){
-						printf("collide4");
-					}
+		if(bullets[i]->InUse == 1){
+			for (int j = 0; j < Slist.getNumShips(); ++j) {
+				Spaceship* curShip = Slist[j];
+				if(bullets[i]->leftBullet->getPosition().distance(curShip->getPosition()) < 1){
+					std::cout << "\nLeft bullet collided with ship " << j;
+				}
+				if(bullets[i]->rightBullet->getPosition().distance(curShip->getPosition()) < 1){
+					std::cout << "\nRight bullet collided with ship " << j;
+				}
 			}
+				
+		}
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/*if(distance1 < 1){
-		printf("collide1");
-		
-		camera->setPosition(pos - forw);
-		last_dir_ = Direction::Backward;
-		ship_float = -forw;
-
-	}
-	if(distance2 < 1){
-		printf("collide2");
-
-		camera->setPosition(pos - forw);
-		last_dir_ = Direction::Backward;
-		ship_float = -forw;
-	}
-
-	if(distance3 < 1){
-		printf("collide3");
-
-		camera->setPosition(pos - forw);
-		last_dir_ = Direction::Backward;
-		ship_float = -forw;
-	}*/
-
 
 	/* Move ship according to keyboard input and last move */
 	/* Movement factors to apply to the ship */

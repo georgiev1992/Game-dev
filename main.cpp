@@ -15,11 +15,6 @@ int main(void){
 		application.CreateTorusGeometry("TorusMesh");
 		application.CreateCube();
 		application.createBullets();
-		// (material, x ,y ,z , number for mesh names)
-		application.CreateModel_1(-2, 0, 0, 1);
-		application.CreateModel_2(-1, 0, 0, 2);
-		application.CreateModel_3(-1.5, 1, 0, 3);
-		application.CreateModel_Player(-3.0, 1.6, 0, 4);
 
 		// (small, med, big, origin of spawn point)
 		application.createShips(5,5,5);
