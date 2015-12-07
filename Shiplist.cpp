@@ -15,7 +15,7 @@ Shiplist::~Shiplist(void) {
 }
 
 
-void Shiplist::operate(Ogre::Vector3 playerPos) {
+void Shiplist::operate(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
 	// Makes all of the ships run
 	// Deletes all ships if each one is dead
 	BOOL allDead = true;
@@ -23,7 +23,7 @@ void Shiplist::operate(Ogre::Vector3 playerPos) {
 	for (int i = 0; i < numShips; ++i) {
 		Spaceship* current = ships[i];
 		if (current != NULL && !current->isDead()) {
-			current->run(playerPos);
+			current->run(playerPos, camera);
 			allDead = false;
 		}
 	}

@@ -1261,7 +1261,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		notSetup = false;
 	}
 
-	Slist.operate(pos);
+	Slist.operate(pos, camera);
 
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
@@ -1300,35 +1300,6 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 				bullets[i]->rightBullet->setOrientation(qOld);
 				bullets[i]->leftBullet->setOrientation(qOld);
 
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_1->getPosition());
-					if(distance4 < 2){
-						printf("collide6");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_1->getPosition());
-					if(distance4 < 2){
-						printf("collide6");
-					}
-
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_2->getPosition());
-					if(distance4 < 2){
-						printf("collide5");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_2->getPosition());
-					if(distance4 < 2){
-						printf("collide5");
-					}
-
-				distance4= bullets[i]->leftBullet->getPosition().distance(AI_3->getPosition());
-					if(distance4 < 2){
-						printf("collide4");
-					}
-
-				distance4= bullets[i]->rightBullet->getPosition().distance(AI_3->getPosition());
-					if(distance4 < 2){
-						printf("collide4");
-					}
 
 				break;
 			}
@@ -1471,11 +1442,42 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	Ogre::Real distance3= player_c->getPosition().distance(AI_3->getPosition());
 ///////////////////////////////////////////////
  // Bullet collision detection
+	for(int i = 0; i < MAX_BULLETS; i++){
+			if(bullets[i]->InUse == 1){
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_1->getPosition());
+					if(distance4 < 1){
+						printf("collide6");
+					}
 
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_1->getPosition());
+					if(distance4 < 1){
+						printf("collide6");
+					}
 
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_2->getPosition());
+					if(distance4 < 1){
+						printf("collide5");
+					}
+
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_2->getPosition());
+					if(distance4 < 1){
+						printf("collide5");
+					}
+
+				distance4= bullets[i]->leftBullet->getPosition().distance(AI_3->getPosition());
+					if(distance4 < 1){
+						printf("collide4");
+					}
+
+				distance4= bullets[i]->rightBullet->getPosition().distance(AI_3->getPosition());
+					if(distance4 < 1){
+						printf("collide4");
+					}
+			}
+	}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	if(distance1 < 1){
+	/*if(distance1 < 1){
 		printf("collide1");
 		
 		camera->setPosition(pos - forw);
@@ -1497,7 +1499,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		camera->setPosition(pos - forw);
 		last_dir_ = Direction::Backward;
 		ship_float = -forw;
-	}
+	}*/
 
 
 	/* Move ship according to keyboard input and last move */
