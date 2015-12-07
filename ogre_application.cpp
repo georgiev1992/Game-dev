@@ -32,7 +32,7 @@ Ogre::Vector3 camera_look_at_g(0.0, 0.0, 0.0);
 Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 int viewMode = 0;
-
+bool shooting = false;
 //AI floats
 float ai1_x =0, ai1_y =0, ai1_z =0;
 float ai2_x =0, ai2_y =0, ai2_z =0;
@@ -40,6 +40,8 @@ float ai3_x =0, ai3_y =0, ai3_z =0;
 float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
+
+Bullet** bullets = new Bullet*[MAX_BULLETS]();
 
 /* Materials */
 const Ogre::String material_directory_g = MATERIAL_DIRECTORY;
@@ -71,7 +73,6 @@ void OgreApplication::Init(void){
 	InitFrameListener();
 	InitOIS();
 	LoadMaterials();
-
 	InitCompositor();
 
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
@@ -970,6 +971,35 @@ Ogre::SceneNode* OgreApplication::CreateModel_2(float x, float y, float z, int n
     }
 }
 
+void OgreApplication::createBullets(void){
+
+
+		Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
+        Ogre::SceneNode* root_scene_node = scene_manager->getRootSceneNode();
+
+		for(int i = 0; i < MAX_BULLETS; i++){
+			bullets[i] = new Bullet();
+			Ogre::String El = Ogre::String("leftBullet" + i);
+			Ogre::String Er = Ogre::String("rightBullet" + i);
+
+			Ogre::Entity *left = scene_manager->createEntity(El, "Cube");
+			Ogre::Entity *right = scene_manager->createEntity(Er, "Cube");
+
+			
+			left->setMaterialName("XBlasters");
+			right->setMaterialName("XBlasters");
+
+			bullets[i]->leftBullet =  root_scene_node->createChildSceneNode(El);
+			bullets[i]->leftBullet->attachObject(left);
+			bullets[i]->rightBullet =  root_scene_node->createChildSceneNode(Er);
+			bullets[i]->rightBullet->attachObject(right);
+
+
+		}
+
+
+}
+
 Ogre::SceneNode* OgreApplication::CreateModel_3(float x, float y, float z, int nm){
 	const int numCubes = 7;
 	const int numTorus = 2;
@@ -1195,6 +1225,8 @@ bool OgreApplication::frameEnded(const Ogre::FrameEvent &fe){
 
 
 
+
+
 bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
   
 	Ogre::SceneManager* scene_manager = ogre_root_->getSceneManager("MySceneManager");
@@ -1208,11 +1240,10 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	forw = qOld * Ogre::Vector3(0,0,-1);
 	up = qOld * Ogre::Vector3(0,1,0);
 	right = forw.crossProduct(up);
-
+	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
 	if (!camera){
 		return false;
 	}
-
 	// ClassTest
 	small1.run();
 	med1.run();
@@ -1237,13 +1268,36 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
         return false;
     }
 
-	if (keyboard_->isKeyDown(OIS::KC_SPACE)){
-		space_down_ = true;
+	if (keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == false){
+		for(int i = 0; i < MAX_BULLETS; i++){
+			if(bullets[i]->InUse == 0){
+				bullets[i]->InUse = 1;
+				bullets[i]->traj = forw;
+				bullets[i]->leftBullet->setPosition(pos);
+				bullets[i]->rightBullet->setPosition(pos);
+
+
+				bullets[i]->leftBullet->setScale(0.01,0.01,0.1);
+				bullets[i]->rightBullet->setScale(0.01,0.01,0.1);
+					
+				bullets[i]->leftBullet->translate(-0.1,0,0,Ogre::Node::TS_LOCAL);
+				bullets[i]->rightBullet->translate(0.1,0,0 ,Ogre::Node::TS_LOCAL);
+
+				bullets[i]->rightBullet->setOrientation(qOld);
+				bullets[i]->leftBullet->setOrientation(qOld);
+
+				break;
+			}
+		}
+		shooting = true;
 	}
-	if ((!keyboard_->isKeyDown(OIS::KC_SPACE)) && space_down_){
-		animating_ = !animating_;
-		space_down_ = false;
+	if (!keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == true){
+		shooting = false;
 	}
+	for(int i = 0; i<MAX_BULLETS; i++){
+		bullets[i]->handle(fe.timeSinceLastFrame);
+	}
+
 	if (keyboard_->isKeyDown(OIS::KC_V)){
 		animation_state_->setTimePosition(0);
 	}
@@ -1367,7 +1421,7 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	//////////////////////////////////////////////////////////////////
 
 	// Collision Detection
-	Ogre::SceneNode *player_c = scene_manager->getSceneNode("Player1Body");
+
 	Ogre::Real distance1= player_c->getPosition().distance(AI_1->getPosition());
 	Ogre::Real distance2= player_c->getPosition().distance(AI_2->getPosition());
 

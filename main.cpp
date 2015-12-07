@@ -14,7 +14,7 @@ int main(void){
 		application.Init();
 		application.CreateTorusGeometry("TorusMesh");
 		application.CreateCube();
-
+		application.createBullets();
 		// (material, x ,y ,z , number for mesh names)
 		application.CreateModel_1(-2, 0, 0, 1);
 		application.CreateModel_2(-1, 0, 0, 2);
@@ -26,7 +26,6 @@ int main(void){
 		application.small1 = Smallship(application.CreateModel_1(3, 0, 0, 5));
 		application.med1 = Medship(application.CreateModel_2(1, 0, 0, 6));
 		application.big1 = Bigship(application.CreateModel_3(2, 0, 0, 7));
-
 
 		application.MainLoop();
 	}
