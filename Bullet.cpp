@@ -24,5 +24,7 @@ void Bullet::handle(float time){
 
 	}
 	//todo: make collision with bullets and other objects
+
+
 	
 }
