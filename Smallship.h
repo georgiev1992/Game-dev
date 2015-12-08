@@ -18,8 +18,8 @@ public:
 	}
 	~Smallship(void) {}
 
-	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
-		move(playerPos, camera);
+	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera,int* hp) {
+		move(playerPos, camera, hp);
 
 		// Rotates the torus
 		Ogre::Vector3 s1, s2;

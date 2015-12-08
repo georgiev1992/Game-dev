@@ -19,8 +19,7 @@
 #include "OIS/OIS.h"
 
 #define PATH_SIZE 10
-// TODO
-// Add shooting
+
 
 class Spaceship
 {
@@ -28,8 +27,8 @@ public:
 	Spaceship(void);
 	Spaceship(Ogre::SceneNode* newModel);
 	~Spaceship(void);
-	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera);
-	void move(Ogre::Vector3 playerPos, Ogre::Camera *camera);
+	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera,int *hp);
+	void move(Ogre::Vector3 playerPos, Ogre::Camera *camera,int *hp);
 	void takeDamage(int i);
 	bool isDead();
 	float getSize() {return size;};

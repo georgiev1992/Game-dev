@@ -44,6 +44,7 @@ float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
 float type_1= 0.01,type_2= 0.01,type_3= 0.1,type_4=0;
+int *player_hp = new int;
 
 Bullet** bullets = new Bullet*[MAX_BULLETS]();
 
@@ -67,6 +68,7 @@ void OgreApplication::Init(void){
 	/* Set default values for the variables */
 	animating_ = false;
 	space_down_ = false;
+	*player_hp = 100;
 
 	/* Run all initialization steps */
     InitRootNode();
@@ -1287,9 +1289,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		return false;
 	}
 
-	if (!pause)
-		Slist.operate(pos, camera);
 
+	if (!pause)
+		Slist.operate(pos, camera, player_hp);
+
+	if(*player_hp < 0){
+		printf("Game Over %d\n",*player_hp);
+		exit(1);
+	}
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
 

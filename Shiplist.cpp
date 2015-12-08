@@ -22,7 +22,7 @@ Spaceship* Shiplist::operator[](int i) {
 }
 
 
-void Shiplist::operate(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
+void Shiplist::operate(Ogre::Vector3 playerPos,Ogre::Camera *camera, int *hp) {
 	// Makes all of the ships run
 	// Deletes all ships if each one is dead
 	BOOL allDead = true;
@@ -30,7 +30,7 @@ void Shiplist::operate(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
 	for (int i = 0; i < numShips; ++i) {
 		Spaceship* current = ships[i];
 		if (current != NULL && !current->isDead()) {
-			current->run(playerPos, camera);
+			current->run(playerPos, camera, hp);
 			allDead = false;
 		}
 	}
@@ -68,8 +68,7 @@ void Shiplist::destroyShips() {
 }
 
 void Shiplist::destroy(Spaceship* ship) {
-	// TODO
-	// Needs to be fixed, doesn't work
+
 	Ogre::SceneNode* temp = ship->getModel();
 	temp->removeAndDestroyAllChildren();
 	manager->destroySceneNode(temp);
