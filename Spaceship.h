@@ -32,6 +32,7 @@ public:
 	void move(Ogre::Vector3 playerPos, Ogre::Camera *camera);
 	void takeDamage(int i);
 	bool isDead();
+	float getSize() {return size;};
 	Ogre::Vector3 getPosition();
 	Ogre::SceneNode* getModel();
 
@@ -47,6 +48,7 @@ protected:
 	Ogre::Vector3 fPath[PATH_SIZE];
 	int health;
 	int pathCount;
+	float size;
 	float speed;
 	float fireSpeed;
 	float lastHit;

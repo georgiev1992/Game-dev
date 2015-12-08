@@ -3,6 +3,7 @@
 Spaceship::Spaceship(void) {
 	model = NULL;
 	health = 20;
+	size = 1.0f;
 	speed = 0.1f;
 	fireSpeed = 1.0f;
 	lastHit = 0.0f;
