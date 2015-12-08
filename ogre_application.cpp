@@ -35,6 +35,7 @@ Ogre::Vector3 camera_up_g(0.0, 1.0, 0.0);
 const Ogre::ColourValue viewport_background_color_g(1.0, 0.0, 0.0);
 int viewMode = 0;
 bool shooting = false;
+bool pause = false;
 //AI floats
 float ai1_x =0, ai1_y =0, ai1_z =0;
 float ai2_x =0, ai2_y =0, ai2_z =0;
@@ -1286,7 +1287,8 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		return false;
 	}
 
-	Slist.operate(pos, camera);
+	if (!pause)
+		Slist.operate(pos, camera);
 
 	/* This event is called after a frame is queued for rendering */
 	/* Do stuff in this event since the GPU is rendering and the CPU is idle */
@@ -1306,6 +1308,11 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
         ogre_window_->destroy();
         return false;
     }
+
+	if (keyboard_->isKeyDown(OIS::KC_P)){
+			pause = !pause;
+	}
+
 	// bullet types
 	if (keyboard_->isKeyDown(OIS::KC_1)){
 			type_1= 0.08;
