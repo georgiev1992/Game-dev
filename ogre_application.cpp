@@ -42,7 +42,7 @@ float ai3_x =0, ai3_y =0, ai3_z =0;
 float elapsed_time_AI=0;
 float elapsed_time2_AI=0;
 float elapsed_time3_AI=0;
-float type_1= 0.01,type_2= 0.01,type_3= 0.1;
+float type_1= 0.01,type_2= 0.01,type_3= 0.1,type_4=0;
 
 Bullet** bullets = new Bullet*[MAX_BULLETS]();
 
@@ -1305,21 +1305,24 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
     }
 	// bullet types
 	if (keyboard_->isKeyDown(OIS::KC_1)){
-			type_1= 0.01;
+			type_1= 0.08;
 			type_2= 0.01;
 			type_3= 0.1;
+			type_4= 0;
 	}
 
 		if (keyboard_->isKeyDown(OIS::KC_2)){
 			type_1= 0.01;
 			type_2= 1;
 			type_3= 0.1;
+			type_4= 1;
 	}
 
 			if (keyboard_->isKeyDown(OIS::KC_3)){
-			type_1= 0.51;
-			type_2= 0.51;
-			type_3= 0.1;
+			type_1= 0.25;
+			type_2= 0.25;
+			type_3= 0.01;
+			type_4= 2;
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_SPACE) && shooting == false){
@@ -1333,10 +1336,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 
 				bullets[i]->leftBullet->setScale(type_1, type_2, type_3);
 				bullets[i]->rightBullet->setScale(type_1, type_2, type_3);
-					
+					if(type_4 == 2){
+				bullets[i]->leftBullet->translate(0.0,0,0,Ogre::Node::TS_LOCAL);
+				bullets[i]->rightBullet->translate(0.0,0,0 ,Ogre::Node::TS_LOCAL);
+				
+					}else{
 				bullets[i]->leftBullet->translate(-0.1,0,0,Ogre::Node::TS_LOCAL);
 				bullets[i]->rightBullet->translate(0.1,0,0 ,Ogre::Node::TS_LOCAL);
-
+					}
 				bullets[i]->rightBullet->setOrientation(qOld);
 				bullets[i]->leftBullet->setOrientation(qOld);
 
@@ -1430,8 +1437,10 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 	}
 
 	if (keyboard_->isKeyDown(OIS::KC_4)){
-
-		Slist.addShip(1, CreateModel_1( rand() % 20 - 10,  rand() % 20 - 10,  rand() % 20 - 10, shipsMade));
+		if(shipsMade % 2 == 0)
+			Slist.addShip(1, CreateModel_1( rand() % 20 - 10,  rand() % 20 - 10,  rand() % 20 - 10, shipsMade));
+		else
+			Slist.addShip(2, CreateModel_2( rand() % 20 - 10,  rand() % 20 - 10,  rand() % 20 - 10, shipsMade));
 		++shipsMade;
 	}
 

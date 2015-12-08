@@ -249,7 +249,7 @@ material XBlasters
             }
 
 			texture_unit {
-				texture textures/XBlasters.png 2d
+				texture textures/XBlasters.jpg 2d
 			}
         } 
     }
