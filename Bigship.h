@@ -12,6 +12,7 @@ public:
 		// Change these values to be unique to each ship type
 		model = newModel;
 		health = 20;
+		size = 1.0f;
 		speed = 0.03f;
 		fireSpeed = 1.0f;
 	}

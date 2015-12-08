@@ -1393,13 +1393,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 		if(bullets[i]->InUse == 1){
 			for (int j = 0; j < Slist.getNumShips(); ++j) {
 				Spaceship* curShip = Slist[j];
-				if(bullets[i]->leftBullet->getPosition().distance(curShip->getPosition()) < 1){
-					std::cout << "\nLeft bullet collided with ship " << j;
+				float size = curShip->getSize();
+				if(bullets[i]->leftBullet->getPosition().distance(curShip->getPosition()) < size){
+					std::cout << "\nL " << j;
 					
 					bullets[i]->hit = true;
 				}
-				if(bullets[i]->rightBullet->getPosition().distance(curShip->getPosition()) < 1){
-					std::cout << "\nRight bullet collided with ship " << j;
+				if(bullets[i]->rightBullet->getPosition().distance(curShip->getPosition()) < size){
+					std::cout << "\nR " << j;
 					
 					bullets[i]->hit = true;
 				}
