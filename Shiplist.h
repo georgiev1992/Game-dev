@@ -19,7 +19,7 @@ public:
 	Shiplist(Ogre::SceneManager* newManager);
 	~Shiplist(void);
 	Spaceship* operator[](int i);
-	void operate(Ogre::Vector3 playerPos,Ogre::Camera *camera);
+	void operate(Ogre::Vector3 playerPos,Ogre::Camera *camera,int *hp);
 	void addShip(int type, Ogre::SceneNode* newModel);
 	void destroyShips();
 	void destroy(Spaceship* ship);

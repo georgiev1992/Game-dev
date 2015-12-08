@@ -21,19 +21,19 @@ Spaceship::Spaceship(Ogre::SceneNode* newModel) {
 }
 
 Spaceship::~Spaceship(void) {
-	// TODO
+	
 	// Get list class to destroy the model
 }
 
-void Spaceship::run(Ogre::Vector3 playerPos, Ogre::Camera *camera) {
-	// TODO
+void Spaceship::run(Ogre::Vector3 playerPos, Ogre::Camera *camera, int *hp) {
+	
 	// Call all functions to make the ship operate (e.g. moving and shooting)
-	move(playerPos, camera);
+	move(playerPos, camera, hp);
 }
 
-void Spaceship::move(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
+void Spaceship::move(Ogre::Vector3 playerPos,Ogre::Camera *camera, int *hp) {
 	// Move ship to its next position
-	// TODO
+	
 	// Check for collision with player and other ships
 	Ogre::Vector3 pos = camera->getPosition(), forw, right, up;
 	forw = camera->getDerivedOrientation() * Ogre::Vector3(0,0,-1);
@@ -46,13 +46,13 @@ void Spaceship::move(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
 		}
 		if(isColliding(camera->getPosition())){
 			camera->setPosition(pos - forw);
-
+			*hp-=5;
 		}
 
 		moveTo(fPath[pathCount]);
 	} else {
 		calcNewPath();
-		move(playerPos,camera);
+		move(playerPos,camera,hp);
 	}
 }
 

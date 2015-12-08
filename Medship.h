@@ -20,8 +20,8 @@ public:
 
 	~Medship(void) {}
 
-	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera) {
-		move(playerPos, camera);
+	virtual void run(Ogre::Vector3 playerPos,Ogre::Camera *camera,int* hp) {
+		move(playerPos, camera,hp);
 
 		// Rotates the four small guns on the front
 		model->getChild(0)->getChild(0)->getChild(0)->roll(Ogre::Degree(5));
