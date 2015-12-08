@@ -10,8 +10,8 @@ Bullet::~Bullet(){
 }
 
 void Bullet::setPositionAway(){
-		leftBullet->setPosition(          leftBullet->getPosition() + (3000)*traj                  );
-		rightBullet->setPosition(         rightBullet->getPosition() + (3000)*traj                  );
+		leftBullet->setPosition(          leftBullet->getPosition() + (300000)*traj                  );
+		rightBullet->setPosition(         rightBullet->getPosition() + (300000)*traj                  );
 		InUse =0;
 }
 

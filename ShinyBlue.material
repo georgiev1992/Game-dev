@@ -255,6 +255,27 @@ material XBlasters
     }
 }
 
+material BillboardX
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref shiny_blue_shader/vs
+            {
+            }
+
+            fragment_program_ref shiny_toon_shader_two/fs
+            {
+            }
+
+			texture_unit {
+				texture textures/XBlasters.png 2d
+			}
+        } 
+    }
+}
+
 
 
 

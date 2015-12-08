@@ -832,6 +832,8 @@ Ogre::SceneNode* OgreApplication::CreateModel_Player(float x, float y, float z, 
 			cube_[i]->attachObject(entity);
 		}
 
+	
+
 		//Remove existing hierarchy and implement our own
 		for (int i = 1; i < 5; i++){
 			root_scene_node->removeChild(cube_[i]);	
@@ -1092,6 +1094,7 @@ Ogre::SceneNode* OgreApplication::CreateModel_3(float x, float y, float z, int n
 		for (int i = 0; i < numTorus; i++){
 			root_scene_node->removeChild(torus_[i]);		
 		}
+
 
 		cube_[0]->translate(x,y,z);
 		
@@ -1406,7 +1409,14 @@ bool OgreApplication::frameRenderingQueued(const Ogre::FrameEvent& fe){
 				}
 
 				if(bullets[i]->hit){
-					curShip->takeDamage(5);
+					if(type_4 ==2 )
+						curShip->takeDamage(10);
+					else if (type_4 ==1 )
+						curShip->takeDamage(5);
+					else
+						curShip->takeDamage(4);
+
+
 					bullets[i]->hit = false;
 					bullets[i]->setPositionAway();
 				}

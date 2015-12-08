@@ -16,6 +16,8 @@
 #include "OGRE/OgreCompositorManager.h"
 #include "OGRE/OgreCompositorInstance.h"
 #include "OIS/OIS.h"
+#include <OgreBillboardSet.h>
+#include <OgreBillboard.h>
 
 #include "Shiplist.h"
 #include "Bullet.h"

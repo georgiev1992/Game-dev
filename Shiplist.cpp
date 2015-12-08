@@ -44,6 +44,7 @@ void Shiplist::addShip(int type, Ogre::SceneNode* newModel) {
 	if (numShips < MAX_SHIPS) {
 		Spaceship* newShip;
 
+
 		if (type == 1) {
 			newShip = new Smallship(newModel);
 		}
